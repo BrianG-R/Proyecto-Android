@@ -84,7 +84,7 @@
             android:backgroundTint="#D9A066"
             android:textColor="#3E2723" />
 
-        <!-- Botón de cerrar sesión -->
+
         <Button
             android:id="@+id/btnCerrar"
             android:layout_width="match_parent"
