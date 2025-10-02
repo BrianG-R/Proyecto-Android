@@ -96,7 +96,7 @@
 
     </LinearLayout>
 
-    <!-- Contenedor para cargar fragments -->
+
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="0dp"
