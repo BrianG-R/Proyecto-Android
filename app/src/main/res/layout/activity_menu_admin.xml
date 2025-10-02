@@ -73,7 +73,7 @@
             android:backgroundTint="#D9A066"
             android:textColor="#3E2723" />
 
-        <!-- Botón Escanear QR -->
+
         <Button
             android:id="@+id/btnEscanearQR"
             android:layout_width="match_parent"
