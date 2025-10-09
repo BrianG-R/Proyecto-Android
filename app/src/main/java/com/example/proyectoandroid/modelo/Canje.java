@@ -1,23 +1,33 @@
 package com.example.proyectoandroid.modelo;
 
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
 import java.util.Date;
 
-@Entity(foreignKeys = {
-        @ForeignKey(entity = Cliente.class, parentColumns = "id_cliente", childColumns = "id_cliente"),
-        @ForeignKey(entity = Beneficio.class, parentColumns = "id_beneficio", childColumns = "id_beneficio"),
-        @ForeignKey(entity = Tienda.class, parentColumns = "id_tienda", childColumns = "id_tienda")
-})
+@Entity(tableName = "canjes",
+        foreignKeys = {
+                @ForeignKey(entity = Beneficio.class,
+                        parentColumns = "id",
+                        childColumns = "id_beneficio",
+                        onDelete = ForeignKey.CASCADE),
+                @ForeignKey(entity = Cliente.class,
+                        parentColumns = "id_cliente", // Corregido: Ahora apunta a "id_cliente"
+                        childColumns = "id_cliente",
+                        onDelete = ForeignKey.CASCADE)
+        })
 public class Canje {
-    @PrimaryKey(autoGenerate = true)
-    public int id_canje;
 
-    public int id_cliente;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
     public int id_beneficio;
-    public int id_tienda;
-    public Date fecha_hora;
-    public String codigo_otp;
-    public String estado_sync;
+    public int id_cliente;
+    public Date fecha_canje;
+
+    public Canje(int id_beneficio, int id_cliente, Date fecha_canje) {
+        this.id_beneficio = id_beneficio;
+        this.id_cliente = id_cliente;
+        this.fecha_canje = fecha_canje;
+    }
 }

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:background="#FFF8E1"
+    tools:context=".Vista.CrudBeneficiosFragment">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Menú Beneficios"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#3E2723"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- EditTexts -->
+            <EditText
+                android:id="@+id/editTextNombreBeneficio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre del Beneficio"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#D9A066"
+                android:textColor="#3E2723"
+                android:padding="8dp"/>
+
+            <EditText
+                android:id="@+id/editTextDescripcionBeneficio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Descripción del Beneficio"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#D9A066"
+                android:textColor="#3E2723"
+                android:padding="8dp"/>
+
+            <!-- Botones principales -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/buttonAgregarBeneficio"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Agregar"
+                    android:backgroundTint="#D9A066"
+                    android:textColor="#3E2723"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/buttonEliminarBeneficio"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Eliminar"
+                    android:backgroundTint="#D9A066"
+                    android:textColor="#3E2723"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/btnModificar"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Modificar"
+                    android:backgroundTint="#D9A066"
+                    android:textColor="#3E2723"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/buttonVolver"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Volver"
+                    android:backgroundTint="#D9A066"
+                    android:textColor="#3E2723"/>
+            </LinearLayout>
+
+            <!-- EditText y botón buscar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <EditText
+                    android:id="@+id/editTextBuscar"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:hint="Buscar por nombre"
+                    android:backgroundTint="#D9A066"
+                    android:textColor="#3E2723"
+                    android:padding="8dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/btnBuscar"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Buscar"
+                    android:backgroundTint="#D9A066"
+                    android:textColor="#3E2723"/>
+            </LinearLayout>
+
+            <!-- RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewBeneficios"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:background="#FFF3E0"
+                android:padding="8dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

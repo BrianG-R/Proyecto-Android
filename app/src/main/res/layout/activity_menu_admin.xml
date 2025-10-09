@@ -73,7 +73,7 @@
             android:backgroundTint="#D9A066"
             android:textColor="#3E2723" />
 
-        <!-- Botón Escanear QR -->
+
         <Button
             android:id="@+id/btnEscanearQR"
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
             android:backgroundTint="#D9A066"
             android:textColor="#3E2723" />
 
-        <!-- Botón de cerrar sesión -->
+
         <Button
             android:id="@+id/btnCerrar"
             android:layout_width="match_parent"
@@ -96,7 +96,7 @@
 
     </LinearLayout>
 
-    <!-- Contenedor para cargar fragments -->
+
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="0dp"

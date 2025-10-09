@@ -62,8 +62,9 @@ public class MenuAdmin extends AppCompatActivity {
             // loadFragment(new ProductosFragment());
         });
 
+        // Botón Beneficios → mostrar fragment a pantalla completa
         btnBeneficios.setOnClickListener(v -> {
-            // loadFragment(new BeneficiosFragment());
+            loadFragment(new CrudBeneficiosFragment());
         });
 
         btnEscanearQR.setOnClickListener(v -> {
@@ -90,6 +91,4 @@ public class MenuAdmin extends AppCompatActivity {
         menuContainer.setVisibility(View.VISIBLE);
         fragmentContainer.setVisibility(View.GONE);
     }
-
-
 }

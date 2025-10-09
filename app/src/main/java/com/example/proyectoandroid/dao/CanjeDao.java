@@ -1,24 +1,24 @@
 package com.example.proyectoandroid.dao;
+
 import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.Update;
 import androidx.room.Delete;
+import androidx.room.Insert;
 import androidx.room.Query;
-import java.util.List;
 import com.example.proyectoandroid.modelo.Canje;
+import java.util.List;
 
 @Dao
-
 public interface CanjeDao {
-    @Insert
-    void insert(Canje canje);
 
-    @Update
-    void update(Canje canje);
+    @Insert
+    void insertCanje(Canje canje);
 
     @Delete
-    void delete(Canje canje);
+    void deleteCanje(Canje canje);
 
-    @Query("SELECT * FROM Canje")
-    List<Canje> getAll();
+    @Query("SELECT * FROM canjes")
+    List<Canje> getAllCanjes();
+
+    @Query("SELECT * FROM canjes WHERE id_beneficio = :beneficioId")
+    List<Canje> getCanjesForBeneficio(int beneficioId);
 }
