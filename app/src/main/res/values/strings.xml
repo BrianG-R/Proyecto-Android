@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Proyecto Android</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="imagen_producto_desc">Imagen del producto</string>
+    <string name="nombre_producto">Nombre del producto</string>
+    <string name="precio_producto">Precio del producto</string>
+    <string name="estado_producto">Estado del producto</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

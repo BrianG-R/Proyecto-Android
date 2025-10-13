@@ -59,7 +59,7 @@ public class MenuAdmin extends AppCompatActivity {
         });
 
         btnProductos.setOnClickListener(v -> {
-            // loadFragment(new ProductosFragment());
+             loadFragment(new ProductosFragment());
         });
 
         btnBeneficios.setOnClickListener(v -> {
