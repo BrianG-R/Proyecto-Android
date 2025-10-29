@@ -13,13 +13,22 @@ import com.example.proyectoandroid.modelo.Producto;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import java.util.List;
 
 public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder> {
 
     private List<Producto> productos;
     private boolean modoAdmin;
+
+    private OnItemLongClickListener listener;
+
+    public interface OnItemLongClickListener {
+        void onItemLongClick(Producto producto);
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        this.listener = listener;
+    }
 
     public ProductoAdapter(List<Producto> productos) {
         this(productos, false); // por defecto modo cliente
@@ -30,6 +39,8 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         this.modoAdmin = modoAdmin;
     }
 
+    @NonNull
+    @Override
     public ProductoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         int layoutId = modoAdmin ? R.layout.item_producto_admin : R.layout.item_producto_cliente;
         View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
@@ -47,6 +58,9 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         if (modoAdmin) {
             holder.itemView.setOnLongClickListener(v -> {
                 Toast.makeText(v.getContext(), "Editar/eliminar: " + producto.getNombre(), Toast.LENGTH_SHORT).show();
+                if (listener != null) {
+                    listener.onItemLongClick(producto);
+                }
                 return true;
             });
         }
@@ -55,6 +69,11 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     @Override
     public int getItemCount() {
         return productos.size();
+    }
+
+    public void actualizarLista(List<Producto> nuevaLista) {
+        this.productos = nuevaLista;
+        notifyDataSetChanged();
     }
 
     public static class ProductoViewHolder extends RecyclerView.ViewHolder {
