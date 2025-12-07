@@ -1,73 +1,129 @@
-Proyecto Android - Cafeteria
-Descripción
+# 🌟 Proyecto Android – Sistema de Fidelización para Cafetería (SweetScape App)
 
-Este proyecto es una aplicación Android desarrollada en Java que implementa un CRUD completo para varias entidades como Reglas, Clientes, Productos, Tiendas, Beneficios, Visitas y Canjes, utilizando Room Database para persistencia local.
+Aplicación móvil Android desarrollada en **Java**, que implementa un sistema completo de fidelización para una cafetería.  
+Incluye **CRUDs**, gestión de **tiendas con Google Maps**, **Firebase**, **escáner QR**, **foro**, **beneficios**, **canjes**, y **persistencia local con Room**.
 
-Incluye un Menú Administrativo que permite gestionar las entidades mediante Fragments y un RecyclerView para visualización dinámica de listas.
+Su diseño modular permite una administración completa mediante múltiples *Fragments* y navegación fluida usando *Navigation Components*.
 
-Tecnologías y Librerías
+---
 
-Lenguaje: Java
+## 🚀 Características Principales
 
-IDE: Android Studio
+### 🛠️ CRUDs Completos
+Cada entidad del sistema cuenta con operaciones:
+- Crear  
+- Leer  
+- Actualizar  
+- Eliminar  
+- Visualización con RecyclerView  
+- Selección de ítems  
+- Validación de datos  
+- Persistencia en **Room Database**
 
-Base de datos: Room (SQLite)
+Entidades incluidas:
+- Reglas  
+- Clientes  
+- Productos  
+- Tiendas  
+- Beneficios  
+- Visitas  
+- Canjes  
 
-UI: RecyclerView, ConstraintLayout, ScrollView, Buttons, EditText
+---
 
-Arquitectura: Controladores para encapsular la lógica de negocio y DAOs para el acceso a datos
+## 🗺️ Gestión de Tiendas con Google Maps
+- Selección de ubicación en mapa interactivo  
+- Guardado de coordenadas en Room (double)  
+- Conversión a float para compatibilidad con el fragment  
+- Visualización de ubicación guardada  
+- Modo vista y modo selección  
+- Implementado con Google Maps SDK  
 
-Otros: LiveData para actualizar automáticamente el RecyclerView
+---
 
+## 🔥 Integración con Firebase
+Sincronización opcional de datos usando Realtime Database:
+- Guardar tiendas
+- Actualizar datos
+- Eliminar ubicaciones
 
-Funcionalidades
+Arquitectura basada en **Repositorios Firebase + Controladores**.
 
-CRUD de Reglas
+---
 
-Crear, leer, actualizar y eliminar reglas.
+## 📸 Escaneo de Códigos QR
+Sistema QR integrado:
+- Escaneo desde *ScanQRFragment*
+- Registro de visitas o puntos
+- Integración con módulos de fidelización
 
-Selección de items en RecyclerView para edición.
+---
 
-Persistencia automática en Room Database.
+## 💬 Foro de Usuarios
+Una sección social donde los usuarios pueden:
+- Publicar mensajes o contenido
+- Interactuar con otros usuarios
+- Ser moderados desde el panel admin
 
-Menú Administrativo
+Pensado para aumentar la fidelización.
 
-Navegación entre fragments de entidades (Reglas, Clientes, Productos, Tiendas, Beneficios).
+---
 
-Botones para agregar, modificar, eliminar y volver al menú.
+## 🏆 Sistema de Beneficios
+- CRUD completo de beneficios  
+- Asignación y canje de recompensas  
+- Registro automático del historial  
+- Relación con visitas y puntos  
 
-RecyclerView Dinámico
+---
 
-Muestra listas actualizadas automáticamente usando LiveData.
+## 📱 Menú Administrativo Completo
+Desde el menú principal se puede administrar:
+- Reglas  
+- Productos  
+- Tiendas  
+- Clientes  
+- Beneficios  
+- Canjes  
+- Visitas  
+- Foro  
+- QR  
 
-Cada item del RecyclerView es clickeable para seleccionar y editar.
+Cada módulo implementado con su respectivo Fragment.
 
-Instalación
+---
 
-Clonar el repositorio: https://github.com/BrianG-R/Proyecto-Android.git
+## 🧱 Tecnologías Utilizadas
 
-Abrir el proyecto en Android Studio.
+### 👨‍💻 Lenguaje
+- Java (Android SDK)
 
-Sincronizar Gradle para descargar las dependencias.
+### 🗄️ Base de Datos
+- Room Database  
+- DAOs, Entities y TypeConverters  
+- Persistencia en SQLite  
 
-Ejecutar en un emulador o dispositivo físico con Android SDK >= 26.
+### 🎨 UI / UX
+- Fragments  
+- RecyclerView con ViewHolder  
+- ConstraintLayout  
+- Material Design  
 
-Uso
+### ☁️ Servicios
+- Firebase Realtime Database  
+- Google Maps SDK  
 
-Iniciar la app y acceder al Menú Administrativo.
+### ⚙️ Arquitectura
+- Estructura MVC/MVVM ligera  
+- Controladores para encapsular lógica  
+- Comunicación entre fragments con FragmentResultListener  
+- Navigation Component + NavGraph  
 
-Seleccionar una sección (ej. Reglas) para ver la lista.
+---
 
-Agregar nuevas reglas, seleccionarlas para editar o eliminar.
+## 📦 Instalación
 
-Los cambios se guardan automáticamente en Room Database y se reflejan en la UI.
+1️⃣ Clonar el repositorio:
+```bash
+git clone https://github.com/BrianG-R/Proyecto-Android.git
 
-Buenas Prácticas
-
-Uso de LiveData para actualizar RecyclerView automáticamente.
-
-Controladores para encapsular la lógica de negocio.
-
-Separación clara de capas: Modelo → DAO → Controller → Vista.
-
-Evita operaciones en el hilo principal usando ExecutorService.
