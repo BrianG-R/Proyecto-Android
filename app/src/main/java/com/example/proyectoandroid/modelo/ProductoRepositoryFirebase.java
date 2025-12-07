@@ -13,9 +13,10 @@ public class ProductoRepositoryFirebase {
     }
 
     public void guardarProducto(Producto producto) {
-        String id = ref.push().getKey();
-        producto.id_producto = id.hashCode();
+        String id = ref.push().getKey(); // ID generado por Firebase
 
+        // Guardamos el ID generado como parte del objeto
+        // Firebase puede almacenar un string sin problemas
         ref.child(id).setValue(producto);
     }
 

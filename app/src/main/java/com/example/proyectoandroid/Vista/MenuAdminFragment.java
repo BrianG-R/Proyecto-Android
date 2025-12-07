@@ -69,6 +69,10 @@ public class MenuAdminFragment extends Fragment {
                 Navigation.findNavController(v)
                         .navigate(R.id.action_menuAdminFragment_to_foroFragment)
         );
+        btnProductos.setOnClickListener(v ->
+                Navigation.findNavController(v)
+                        .navigate(R.id.action_menuAdminFragment_to_gestionProductosFragment)
+        );
 
 
 

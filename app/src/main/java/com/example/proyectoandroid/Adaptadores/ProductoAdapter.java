@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.proyectoandroid.R;
 import com.example.proyectoandroid.modelo.Producto;
@@ -20,18 +19,19 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     private List<Producto> productos;
     private boolean modoAdmin;
 
-    private OnItemLongClickListener listener;
+    private OnItemClickListener listener;
 
-    public interface OnItemLongClickListener {
-        void onItemLongClick(Producto producto);
+    // 🔥 Nueva interfaz igual que Tiendas
+    public interface OnItemClickListener {
+        void onItemClick(Producto producto);
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
     public ProductoAdapter(List<Producto> productos) {
-        this(productos, false); // por defecto modo cliente
+        this(productos, false);
     }
 
     public ProductoAdapter(List<Producto> productos, boolean modoAdmin) {
@@ -50,18 +50,18 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     @Override
     public void onBindViewHolder(@NonNull ProductoViewHolder holder, int position) {
         Producto producto = productos.get(position);
+
         holder.txtNombre.setText(producto.getNombre());
         holder.txtPrecio.setText("$" + producto.getPrecio());
         holder.txtEstado.setText(producto.isDisponible() ? "Disponible" : "No disponible");
         holder.txtEstado.setTextColor(producto.isDisponible() ? 0xFF4CAF50 : 0xFFF44336);
 
+        // 🔥 CLICK NORMAL IGUAL QUE TIENDAS
         if (modoAdmin) {
-            holder.itemView.setOnLongClickListener(v -> {
-                Toast.makeText(v.getContext(), "Editar/eliminar: " + producto.getNombre(), Toast.LENGTH_SHORT).show();
+            holder.itemView.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onItemLongClick(producto);
+                    listener.onItemClick(producto);
                 }
-                return true;
             });
         }
     }
@@ -77,11 +77,13 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     }
 
     public static class ProductoViewHolder extends RecyclerView.ViewHolder {
+
         TextView txtNombre, txtPrecio, txtEstado;
         ImageView imgProducto;
 
         public ProductoViewHolder(@NonNull View itemView) {
             super(itemView);
+
             txtNombre = itemView.findViewById(R.id.txtNombre);
             txtPrecio = itemView.findViewById(R.id.txtPrecio);
             txtEstado = itemView.findViewById(R.id.txtEstado);

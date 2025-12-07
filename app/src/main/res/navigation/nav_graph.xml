@@ -48,12 +48,25 @@
             app:destination="@id/scanQRFragment" />
 
         <action
+            android:id="@+id/action_menuAdminFragment_to_foroFragment"
+            app:destination="@id/foroFragment" />
+
+        <action
             android:id="@+id/action_menuAdminFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
 
+        <!-- NUEVOS FRAGMENTS DEL MERGE -->
         <action
-            android:id="@+id/action_menuAdminFragment_to_foroFragment"
-            app:destination="@id/foroFragment" />
+            android:id="@+id/action_menuAdminFragment_to_catalogoProductosFragment"
+            app:destination="@id/catalogoProductosFragment" />
+
+        <action
+            android:id="@+id/action_menuAdminFragment_to_productosFragment"
+            app:destination="@id/productosFragment" />
+
+        <action
+            android:id="@+id/action_menuAdminFragment_to_gestionProductosFragment"
+            app:destination="@id/gestionProductosFragment" />
     </fragment>
 
     <!-- CRUDs -->
@@ -90,20 +103,26 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.example.proyectoandroid.Vista.MapsFragment">
-
-        <argument
-            android:name="lat"
-            app:argType="float" />
-
-        <argument
-            android:name="lon"
-            app:argType="float" />
-
-        <argument
-            android:name="modoSeleccion"
-            app:argType="boolean" />
+        <argument android:name="lat" app:argType="float"/>
+        <argument android:name="lon" app:argType="float"/>
+        <argument android:name="modoSeleccion" app:argType="boolean"/>
     </fragment>
 
+    <!-- NUEVOS FRAGMENTS AÑADIDOS -->
+
+    <fragment
+        android:id="@+id/catalogoProductosFragment"
+        android:name="com.example.proyectoandroid.Vista.CatalogoProductosFragment"
+        tools:layout="@layout/fragment_catalogo_productos" />
+
+    <fragment
+        android:id="@+id/productosFragment"
+        android:name="com.example.proyectoandroid.Vista.ProductosFragment"
+        tools:layout="@layout/fragment_productos" />
+
+    <fragment
+        android:id="@+id/gestionProductosFragment"
+        android:name="com.example.proyectoandroid.Vista.GestionProductosFragment"
+        tools:layout="@layout/fragment_gestion_productos" />
 
 </navigation>
-

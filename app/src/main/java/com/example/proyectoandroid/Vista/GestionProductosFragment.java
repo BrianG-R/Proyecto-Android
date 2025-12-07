@@ -2,18 +2,17 @@ package com.example.proyectoandroid.Vista;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -33,10 +32,10 @@ public class GestionProductosFragment extends Fragment {
     private ProductoController productoController;
     private List<Producto> listaProductos;
 
-    private EditText etNombre, etPrecio;
+    private EditText etNombre, etPrecio, etBuscar;
     private CheckBox checkDisponible;
-    private Button btnCrear, btnModificar, btnEliminar, btnBuscar;
-    private EditText etBuscar;
+
+    private Button btnCrear, btnModificar, btnEliminar, btnBuscar, btnVolver;
 
     private Producto productoSeleccionado = null;
 
@@ -44,6 +43,7 @@ public class GestionProductosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_gestion_productos, container, false);
 
         AppDataBase db = Room.databaseBuilder(
@@ -63,26 +63,35 @@ public class GestionProductosFragment extends Fragment {
 
         etNombre = view.findViewById(R.id.etNombreProducto);
         etPrecio = view.findViewById(R.id.etPrecioProducto);
-        checkDisponible = view.findViewById(R.id.etEstadoProducto); // usa CheckBox en layout
+        checkDisponible = view.findViewById(R.id.etEstadoProducto);
         etBuscar = view.findViewById(R.id.etBuscar);
 
         btnCrear = view.findViewById(R.id.btnCrear);
         btnModificar = view.findViewById(R.id.btnModificar);
         btnEliminar = view.findViewById(R.id.btnEliminar);
         btnBuscar = view.findViewById(R.id.btnBuscar);
+        btnVolver = view.findViewById(R.id.btnVolver);
+
+        // Listener de selección
+        adapter.setOnItemClickListener(producto -> {
+
+            productoSeleccionado = producto;
+
+            etNombre.setText(producto.getNombre());
+            etPrecio.setText(String.valueOf(producto.getPrecio()));
+            checkDisponible.setChecked(producto.isDisponible());
+
+            Toast.makeText(getContext(), "Seleccionado: " + producto.getNombre(), Toast.LENGTH_SHORT).show();
+        });
 
         btnCrear.setOnClickListener(v -> crearProducto());
         btnModificar.setOnClickListener(v -> modificarProducto());
         btnEliminar.setOnClickListener(v -> eliminarProducto());
         btnBuscar.setOnClickListener(v -> buscarProducto());
 
-        adapter.setOnItemLongClickListener(producto -> {
-            productoSeleccionado = producto;
-            etNombre.setText(producto.getNombre());
-            etPrecio.setText(String.valueOf(producto.getPrecio()));
-            checkDisponible.setChecked(producto.isDisponible());
-            Toast.makeText(getContext(), "Producto seleccionado: " + producto.getNombre(), Toast.LENGTH_SHORT).show();
-        });
+        btnVolver.setOnClickListener(v ->
+                Navigation.findNavController(v).popBackStack()
+        );
 
         return view;
     }
@@ -120,13 +129,17 @@ public class GestionProductosFragment extends Fragment {
         if (!nombre.isEmpty() && !precioStr.isEmpty()) {
             try {
                 double precio = Double.parseDouble(precioStr);
+
                 productoSeleccionado.setNombre(nombre);
                 productoSeleccionado.setPrecio(precio);
                 productoSeleccionado.setDisponible(disponible);
+
                 productoController.actualizarProducto(productoSeleccionado);
                 refrescarLista();
                 limpiarCampos();
+
                 Toast.makeText(requireContext(), "Producto modificado", Toast.LENGTH_SHORT).show();
+
             } catch (NumberFormatException e) {
                 Toast.makeText(requireContext(), "Precio inválido", Toast.LENGTH_SHORT).show();
             }

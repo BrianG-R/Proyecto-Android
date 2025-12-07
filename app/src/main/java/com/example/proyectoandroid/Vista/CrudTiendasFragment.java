@@ -29,8 +29,8 @@ public class CrudTiendasFragment extends Fragment {
     private Button btnCrear, btnModificar, btnEliminar, btnVolver, btnSeleccionarUbicacion;
     private RecyclerView recyclerTiendas;
 
-    private float latSeleccion = 0f;
-    private float lonSeleccion = 0f;
+    private double latSeleccion = 0;
+    private double lonSeleccion = 0;
 
     private AppDataBase db;
     private List<Tienda> lista;
@@ -64,29 +64,19 @@ public class CrudTiendasFragment extends Fragment {
 
         cargarLista();
 
-        // Seleccionar ubicación
+        // Selección de ubicación
         btnSeleccionarUbicacion.setOnClickListener(v -> {
             Bundle args = new Bundle();
-            args.putFloat("lat", latSeleccion);
-            args.putFloat("lon", lonSeleccion);
+            args.putFloat("lat", (float) latSeleccion);
+            args.putFloat("lon", (float) lonSeleccion);
             args.putBoolean("modoSeleccion", true);
 
             Navigation.findNavController(v).navigate(R.id.mapsFragment, args);
         });
 
-        btnCrear.setOnClickListener(v -> crearTienda());
-        btnModificar.setOnClickListener(v -> modificarTienda());
-        btnEliminar.setOnClickListener(v -> eliminarTienda());
-
-        etBuscar.setOnKeyListener((v, keyCode, event) -> {
-            if (event.getAction() == KeyEvent.ACTION_UP) {
-                filtrarTiendas(etBuscar.getText().toString());
-            }
-            return false;
-        });
         getParentFragmentManager().setFragmentResultListener(
                 "ubicacionSeleccionada",
-                this,
+                getViewLifecycleOwner(),
                 (key, bundle) -> {
                     latSeleccion = bundle.getFloat("lat");
                     lonSeleccion = bundle.getFloat("lon");
@@ -97,7 +87,17 @@ public class CrudTiendasFragment extends Fragment {
                 }
         );
 
+        btnCrear.setOnClickListener(v -> crearTienda());
+        btnModificar.setOnClickListener(v -> modificarTienda());
+        btnEliminar.setOnClickListener(v -> eliminarTienda());
         btnVolver.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+
+        etBuscar.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_UP) {
+                filtrarTiendas(etBuscar.getText().toString());
+            }
+            return false;
+        });
 
         return view;
     }
@@ -117,50 +117,29 @@ public class CrudTiendasFragment extends Fragment {
             etHorario.setText(tienda.getHorario());
             etEstado.setText(tienda.getEstado());
 
-            latSeleccion = (float) tienda.getLat();
-            lonSeleccion = (float) tienda.getLon();
-        });
-
-        adapter.setOnMapClickListener(tienda -> {
-            float lat = (float) tienda.getLat();
-            float lon = (float) tienda.getLon();
-
-            if (lat == 0f && lon == 0f) {
-                Toast.makeText(getContext(), "Esta tienda no tiene ubicación guardada", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Bundle args = new Bundle();
-            args.putFloat("lat", lat);
-            args.putFloat("lon", lon);
-            args.putBoolean("modoSeleccion", false);
-
-            Navigation.findNavController(requireView())
-                    .navigate(R.id.mapsFragment, args);
+            latSeleccion = tienda.getLat();
+            lonSeleccion = tienda.getLon();
         });
     }
 
     private void crearTienda() {
-        String nombre = etNombre.getText().toString();
-        String direccion = etDireccion.getText().toString();
-        String horario = etHorario.getText().toString();
-        String estado = etEstado.getText().toString();
-
-        if (nombre.isEmpty()) {
+        if (etNombre.getText().toString().isEmpty()) {
             Toast.makeText(getContext(), "Complete los campos", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Tienda nueva = new Tienda(
-                nombre, direccion, horario, estado,
-                (double) latSeleccion, (double) lonSeleccion
+                etNombre.getText().toString(),
+                etDireccion.getText().toString(),
+                etHorario.getText().toString(),
+                etEstado.getText().toString(),
+                latSeleccion,
+                lonSeleccion
         );
 
         db.tiendaDao().insertar(nueva);
-
         limpiarCampos();
         cargarLista();
-        Toast.makeText(getContext(), "Tienda creada", Toast.LENGTH_SHORT).show();
     }
 
     private void modificarTienda() {
@@ -173,14 +152,12 @@ public class CrudTiendasFragment extends Fragment {
         tiendaSeleccionada.setDireccion(etDireccion.getText().toString());
         tiendaSeleccionada.setHorario(etHorario.getText().toString());
         tiendaSeleccionada.setEstado(etEstado.getText().toString());
-        tiendaSeleccionada.setLat((double) latSeleccion);
-        tiendaSeleccionada.setLon((double) lonSeleccion);
+        tiendaSeleccionada.setLat(latSeleccion);
+        tiendaSeleccionada.setLon(lonSeleccion);
 
         db.tiendaDao().actualizar(tiendaSeleccionada);
-
         limpiarCampos();
         cargarLista();
-        Toast.makeText(getContext(), "Modificado correctamente", Toast.LENGTH_SHORT).show();
     }
 
     private void eliminarTienda() {
@@ -190,10 +167,8 @@ public class CrudTiendasFragment extends Fragment {
         }
 
         db.tiendaDao().eliminar(tiendaSeleccionada);
-
         limpiarCampos();
         cargarLista();
-        Toast.makeText(getContext(), "Eliminado", Toast.LENGTH_SHORT).show();
     }
 
     private void filtrarTiendas(String query) {
@@ -208,8 +183,10 @@ public class CrudTiendasFragment extends Fragment {
         etHorario.setText("");
         etEstado.setText("");
         etBuscar.setText("");
-        latSeleccion = 0f;
-        lonSeleccion = 0f;
+
+        latSeleccion = 0;
+        lonSeleccion = 0;
+
         tiendaSeleccionada = null;
     }
 }

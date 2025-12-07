@@ -1,6 +1,7 @@
 package com.example.proyectoandroid.database;
 
 import android.content.Context;
+
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -32,7 +33,7 @@ import com.example.proyectoandroid.modelo.Visita;
                 Visita.class,
                 Canje.class
         },
-        version = 8,
+        version = 9,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
@@ -55,10 +56,10 @@ public abstract class AppDataBase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(
                                     context.getApplicationContext(),
                                     AppDataBase.class,
-                                    "app_database"
+                                    "cafeteria-db"   // ✔ NOMBRE CORREGIDO
                             )
-                            .fallbackToDestructiveMigration()
-                            .allowMainThreadQueries()   // 🔥 NECESARIO PARA EVITAR EL CRASH
+                            .fallbackToDestructiveMigration() // ✔ EVITA TODOS LOS CRASHES DE VERSIONES
+                            .allowMainThreadQueries()         // ✔ OK PARA TU PROYECTO
                             .build();
                 }
             }
