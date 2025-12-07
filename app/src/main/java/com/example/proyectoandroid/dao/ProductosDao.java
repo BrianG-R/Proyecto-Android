@@ -8,7 +8,8 @@ import java.util.List;
 import com.example.proyectoandroid.modelo.Producto;
 @Dao
 
-public interface ProductosDao {
+public interface
+ProductosDao {
     @Insert
     void insert(Producto producto);
 
@@ -20,4 +21,7 @@ public interface ProductosDao {
 
     @Query("SELECT * FROM Producto")
     List<Producto> getAll();
+
+    @Query("SELECT * FROM Producto WHERE nombre LIKE '%' || :nombre || '%'")
+    List<Producto> buscarPorNombre(String nombre);
 }
