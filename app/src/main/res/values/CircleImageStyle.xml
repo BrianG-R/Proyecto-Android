@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Estilo que aplica una máscara circular -->
+    <style name="CircleImageStyle">
+        <item name="shapeAppearanceOverlay">@style/CircleShape</item>
+    </style>
+
+    <!-- Define la forma circular -->
+    <style name="CircleShape" parent="ShapeAppearance.Material3.Corner.None">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>

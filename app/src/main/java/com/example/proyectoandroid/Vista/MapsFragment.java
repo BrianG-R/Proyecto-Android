@@ -1,4 +1,5 @@
 package com.example.proyectoandroid.Vista;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,28 +19,32 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
-    private LatLng initialLocation;
+
     private GoogleMap mMap;
+
+    // Coordenada por defecto (Ovalle)
+    private LatLng initialLocation = new LatLng(-30.6, -71.2);
     private LatLng seleccion;
-    private OnLocationSelectedListener listener;
 
-    // NUEVO: posición inicial para mostrar mapa
-    private LatLng initialPosition;
+    private boolean modoSeleccion = true;
 
-    public interface OnLocationSelectedListener {
-        void onLocationSelected(LatLng location);
-    }
-    public void setInitialLocation(LatLng location) {
-        this.initialLocation = location;
-    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        if (getArguments() != null) {
 
-    public void setOnLocationSelectedListener(OnLocationSelectedListener listener) {
-        this.listener = listener;
-    }
+            float lat = getArguments().getFloat("lat", 0f);
+            float lon = getArguments().getFloat("lon", 0f);
+            modoSeleccion = getArguments().getBoolean("modoSeleccion", true);
 
-    public void setInitialPosition(LatLng position) {
-        this.initialPosition = position;
+            // Si lat/lon = 0, significa sin ubicación → usamos coordenada por defecto
+            if (lat == 0f && lon == 0f) {
+                initialLocation = new LatLng(-30.6, -71.2); // Ovalle
+            } else {
+                initialLocation = new LatLng(lat, lon);
+            }
+        }
     }
 
     @Nullable
@@ -47,25 +52,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
-        // Botón confirmar ubicación solo si vamos a asignar
+        if (mapFragment != null) mapFragment.getMapAsync(this);
+
         Button btnConfirmar = view.findViewById(R.id.btnConfirmarUbicacion);
+        btnConfirmar.setVisibility(modoSeleccion ? View.VISIBLE : View.GONE);
+
         btnConfirmar.setOnClickListener(v -> {
-            if (seleccion != null && listener != null) {
-                listener.onLocationSelected(seleccion);
-                getParentFragmentManager().popBackStack(); // cerrar el mapa
+            if (seleccion != null) {
+                Bundle result = new Bundle();
+                result.putFloat("lat", (float) seleccion.latitude);
+                result.putFloat("lon", (float) seleccion.longitude);
+                getParentFragmentManager().setFragmentResult("ubicacionSeleccionada", result);
+
+                requireActivity().onBackPressed();
             }
         });
-
-        // Si solo es visualizar, se puede ocultar el botón desde fuera
-        btnConfirmar.setVisibility(listener != null ? View.VISIBLE : View.GONE);
 
         return view;
     }
@@ -74,17 +81,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng inicio = initialLocation != null ? initialLocation : new LatLng(-34, 151);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(inicio, 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 15));
+        mMap.addMarker(new MarkerOptions().position(initialLocation).title("Ubicación actual"));
 
-        if (initialLocation != null) {
-            mMap.addMarker(new MarkerOptions().position(initialLocation).title("Ubicación de la tienda"));
+        if (modoSeleccion) {
+            mMap.setOnMapClickListener(latLng -> {
+                seleccion = latLng;
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Ubicación seleccionada"));
+            });
         }
-
-        mMap.setOnMapClickListener(latLng -> {
-            seleccion = latLng;
-            mMap.clear();
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Ubicación seleccionada"));
-        });
     }
 }

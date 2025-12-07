@@ -13,21 +13,24 @@ import java.util.Date;
                         childColumns = "id_beneficio",
                         onDelete = ForeignKey.CASCADE),
                 @ForeignKey(entity = Cliente.class,
-                        parentColumns = "id_cliente", // Corregido: Ahora apunta a "id_cliente"
-                        childColumns = "id_cliente",
+                        parentColumns = "uid",
+                        childColumns = "uid",
                         onDelete = ForeignKey.CASCADE)
         })
 public class Canje {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
+
     public int id_beneficio;
-    public int id_cliente;
+
+    public String uid;
+
     public Date fecha_canje;
 
-    public Canje(int id_beneficio, int id_cliente, Date fecha_canje) {
+    public Canje(int id_beneficio, String uid, Date fecha_canje) {
         this.id_beneficio = id_beneficio;
-        this.id_cliente = id_cliente;
+        this.uid = uid;
         this.fecha_canje = fecha_canje;
     }
 }

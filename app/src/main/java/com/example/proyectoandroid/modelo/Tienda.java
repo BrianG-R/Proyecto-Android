@@ -1,9 +1,12 @@
 package com.example.proyectoandroid.modelo;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.Ignore;
 
-@Entity
+@Entity(tableName = "tienda")
 public class Tienda {
+
     @PrimaryKey(autoGenerate = true)
     private int id_tienda;
 
@@ -12,18 +15,25 @@ public class Tienda {
     private String horario;
     private String estado;
 
-    // Coordenadas
     private double lat;
     private double lon;
 
-    public Tienda(String nombre, String direccion, String horario, String estado) {
+    public Tienda(String nombre, String direccion, String horario, String estado,
+                  double lat, double lon) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.horario = horario;
         this.estado = estado;
+        this.lat = lat;
+        this.lon = lon;
     }
 
-    // Getters y setters
+    @Ignore
+    public Tienda(String nombre, String direccion, String horario, String estado) {
+        this(nombre, direccion, horario, estado, 0.0, 0.0);
+    }
+
+    // Getters y Setters
     public int getId_tienda() { return id_tienda; }
     public void setId_tienda(int id_tienda) { this.id_tienda = id_tienda; }
 

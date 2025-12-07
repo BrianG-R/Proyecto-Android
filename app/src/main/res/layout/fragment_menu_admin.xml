@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Vista.MenuAdmin"
     android:background="#F5F0E6">
+
     <LinearLayout
         android:id="@+id/linearLayoutMenu"
         android:layout_width="match_parent"
@@ -73,6 +74,23 @@
             android:backgroundTint="#D9A066"
             android:textColor="#3E2723" />
 
+        <Button
+            android:id="@+id/btnPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Perfil"
+            android:backgroundTint="#D9A066"
+            android:textColor="#3E2723" />
+
+        <Button
+            android:id="@+id/btnForo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Foro"
+            android:backgroundTint="#D9A066"
+            android:textColor="#3E2723" />
 
         <Button
             android:id="@+id/btnEscanearQR"
@@ -84,7 +102,6 @@
             android:backgroundTint="#D9A066"
             android:textColor="#3E2723" />
 
-
         <Button
             android:id="@+id/btnCerrar"
             android:layout_width="match_parent"
@@ -95,7 +112,6 @@
             android:textColor="#FFFFFF" />
 
     </LinearLayout>
-
 
     <FrameLayout
         android:id="@+id/fragmentContainer"

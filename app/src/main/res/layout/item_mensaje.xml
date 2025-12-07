@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- FOTO AUTOR -->
+    <ImageView
+        android:id="@+id/imgAutor"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_mask"
+        android:padding="2dp"
+        android:layout_marginEnd="8dp"/>
+
+    <!-- CONTENIDO -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="@drawable/bg_mensaje">
+
+        <TextView
+            android:id="@+id/tvRespuestaA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Respuesta a:"
+            android:textStyle="italic"
+            android:textSize="12sp"
+            android:textColor="#666"
+            android:visibility="gone"
+            android:layout_marginBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/tvNombreAutor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Autor"
+            android:textStyle="bold"
+            android:textColor="#3E2723"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tvContenido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contenido..."
+            android:textColor="#000"
+            android:textSize="15sp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/tvFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            android:textColor="#777"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+
+    <!-- RESPONDER -->
+    <ImageButton
+        android:id="@+id/btnResponder"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@android:drawable/ic_menu_revert"
+        android:background="@android:color/transparent"
+        android:tint="#6B4C3B"
+        android:layout_marginStart="6dp"/>
+
+    <!-- ELIMINAR -->
+    <ImageButton
+        android:id="@+id/btnEliminar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@android:drawable/ic_menu_delete"
+        android:background="@android:color/transparent"
+        android:tint="#A0522D"
+        android:layout_marginStart="6dp"/>
+</LinearLayout>

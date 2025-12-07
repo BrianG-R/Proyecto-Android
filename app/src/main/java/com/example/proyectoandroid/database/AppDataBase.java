@@ -13,6 +13,7 @@ import com.example.proyectoandroid.dao.ProductosDao;
 import com.example.proyectoandroid.dao.ReglaDao;
 import com.example.proyectoandroid.dao.TiendaDao;
 import com.example.proyectoandroid.dao.VisitaDao;
+
 import com.example.proyectoandroid.modelo.Beneficio;
 import com.example.proyectoandroid.modelo.Canje;
 import com.example.proyectoandroid.modelo.Cliente;
@@ -22,12 +23,21 @@ import com.example.proyectoandroid.modelo.Tienda;
 import com.example.proyectoandroid.modelo.Visita;
 
 @Database(
-        entities = {Cliente.class, Tienda.class, Producto.class, Regla.class, Beneficio.class, Visita.class, Canje.class},
-        version = 3,
+        entities = {
+                Cliente.class,
+                Tienda.class,
+                Producto.class,
+                Regla.class,
+                Beneficio.class,
+                Visita.class,
+                Canje.class
+        },
+        version = 8,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
 public abstract class AppDataBase extends RoomDatabase {
+
     public abstract ClienteDao clienteDao();
     public abstract TiendaDao tiendaDao();
     public abstract ProductosDao productoDao();
@@ -42,9 +52,13 @@ public abstract class AppDataBase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (AppDataBase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    AppDataBase.class, "app_database")
+                    INSTANCE = Room.databaseBuilder(
+                                    context.getApplicationContext(),
+                                    AppDataBase.class,
+                                    "app_database"
+                            )
                             .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()   // 🔥 NECESARIO PARA EVITAR EL CRASH
                             .build();
                 }
             }

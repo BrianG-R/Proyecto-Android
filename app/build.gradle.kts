@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.navigationSafeArgs)
 }
 
 android {
@@ -38,6 +40,10 @@ dependencies {
 
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation(libs.play.services.maps)
+    implementation(libs.firebase.ai)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+    implementation(libs.firebase.database)
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.google.zxing:core:3.5.0")
@@ -49,4 +55,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("androidx.navigation:navigation-fragment:2.6.0")
+    implementation("androidx.navigation:navigation-ui:2.6.0")
+    implementation(libs.firebase.auth)
+    implementation("com.google.android.material:material:1.11.0")
+
+
+
+
 }

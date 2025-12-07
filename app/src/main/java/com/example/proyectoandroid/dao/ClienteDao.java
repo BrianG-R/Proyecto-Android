@@ -7,20 +7,26 @@ import androidx.room.Delete;
 import androidx.room.Query;
 import java.util.List;
 
-// Importa la clase Cliente
 import com.example.proyectoandroid.modelo.Cliente;
 
 @Dao
 public interface ClienteDao {
-    @Query("SELECT * FROM clientes") // 👈 aquí en minúscula y plural
+
+    @Query("SELECT * FROM Cliente")
     List<Cliente> getAll();
+
+    @Query("SELECT * FROM Cliente WHERE uid = :uid LIMIT 1")
+    Cliente getByUid(String uid);
 
     @Insert
     void insert(Cliente cliente);
 
+    @Update
+    void update(Cliente cliente);
+
     @Delete
     void delete(Cliente cliente);
 
-    @Update
-    void update(Cliente cliente);
+    @Query("SELECT COUNT(*) FROM Cliente WHERE uid = :uid")
+    int exists(String uid);
 }

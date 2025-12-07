@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F0E6">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMensajes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Caja de respuesta -->
+    <LinearLayout
+        android:id="@+id/layoutResponder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:orientation="vertical"
+        android:background="#DDDDDD"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvResponderTexto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"/>
+
+        <Button
+            android:id="@+id/btnCancelarRespuesta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etNuevoMensaje"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Escribe un mensaje..."
+        android:padding="12dp"
+        android:background="@drawable/input_bg"/>
+
+    <Button
+        android:id="@+id/btnEnviarMensaje"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Enviar"
+        android:backgroundTint="#D9A066"
+        android:textColor="@android:color/white"/>
+</LinearLayout>

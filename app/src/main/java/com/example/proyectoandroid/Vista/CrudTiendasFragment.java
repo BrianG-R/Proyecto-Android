@@ -7,36 +7,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import com.example.proyectoandroid.R;
 import com.example.proyectoandroid.Adaptadores.TiendasAdapter;
-import com.example.proyectoandroid.controller.TiendaController;
+import com.example.proyectoandroid.R;
 import com.example.proyectoandroid.database.AppDataBase;
 import com.example.proyectoandroid.modelo.Tienda;
-import com.google.android.gms.maps.model.LatLng;
-import android.widget.Toast;
-
 
 import java.util.List;
 
-
-
 public class CrudTiendasFragment extends Fragment {
-    private List<Tienda> listaTiendas;
-    private TiendasAdapter adapter;
-    private TiendaController tiendaController;
-    private Tienda tiendaSeleccionada = null;
 
-    // Variables temporales para lat/lon al crear una tienda nueva
-    private double latSeleccion = 0.0;
-    private double lonSeleccion = 0.0;
+    private EditText etNombre, etDireccion, etHorario, etEstado, etBuscar;
+    private Button btnCrear, btnModificar, btnEliminar, btnVolver, btnSeleccionarUbicacion;
+    private RecyclerView recyclerTiendas;
+
+    private float latSeleccion = 0f;
+    private float lonSeleccion = 0f;
+
+    private AppDataBase db;
+    private List<Tienda> lista;
+    private TiendasAdapter adapter;
+
+    private Tienda tiendaSeleccionada = null;
 
     @Nullable
     @Override
@@ -46,175 +46,171 @@ public class CrudTiendasFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_crud_tiendas, container, false);
 
-        EditText etNombre = view.findViewById(R.id.etNombre);
-        EditText etDireccion = view.findViewById(R.id.etDireccion);
-        EditText etHorario = view.findViewById(R.id.etHorario);
-        EditText etEstado = view.findViewById(R.id.etEstado);
-        EditText etBuscar = view.findViewById(R.id.etBuscar);
+        etNombre = view.findViewById(R.id.etNombre);
+        etDireccion = view.findViewById(R.id.etDireccion);
+        etHorario = view.findViewById(R.id.etHorario);
+        etEstado = view.findViewById(R.id.etEstado);
+        etBuscar = view.findViewById(R.id.etBuscar);
 
-        Button btnCrear = view.findViewById(R.id.btnCrear);
-        Button btnModificar = view.findViewById(R.id.btnModificar);
-        Button btnEliminar = view.findViewById(R.id.btnEliminar);
-        Button btnVolver = view.findViewById(R.id.btnVolver);
-        Button btnSeleccionarUbicacion = view.findViewById(R.id.btnSeleccionarUbicacion);
+        btnCrear = view.findViewById(R.id.btnCrear);
+        btnModificar = view.findViewById(R.id.btnModificar);
+        btnEliminar = view.findViewById(R.id.btnEliminar);
+        btnVolver = view.findViewById(R.id.btnVolver);
+        btnSeleccionarUbicacion = view.findViewById(R.id.btnSeleccionarUbicacion);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerTiendas);
+        recyclerTiendas = view.findViewById(R.id.recyclerTiendas);
 
-        // Inicializar Room
-        AppDataBase db = Room.databaseBuilder(
-                        getContext(),
-                        AppDataBase.class,
-                        "app_database")
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
-                .build();
+        db = AppDataBase.getInstance(requireContext());
 
-        tiendaController = new TiendaController(db);
+        cargarLista();
 
-        // Cargar datos desde Room
-        listaTiendas = tiendaController.obtenerTiendas();
-        adapter = new TiendasAdapter(listaTiendas);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        // Seleccionar ubicación
+        btnSeleccionarUbicacion.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putFloat("lat", latSeleccion);
+            args.putFloat("lon", lonSeleccion);
+            args.putBoolean("modoSeleccion", true);
 
-        // Selección del item
+            Navigation.findNavController(v).navigate(R.id.mapsFragment, args);
+        });
+
+        btnCrear.setOnClickListener(v -> crearTienda());
+        btnModificar.setOnClickListener(v -> modificarTienda());
+        btnEliminar.setOnClickListener(v -> eliminarTienda());
+
+        etBuscar.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_UP) {
+                filtrarTiendas(etBuscar.getText().toString());
+            }
+            return false;
+        });
+        getParentFragmentManager().setFragmentResultListener(
+                "ubicacionSeleccionada",
+                this,
+                (key, bundle) -> {
+                    latSeleccion = bundle.getFloat("lat");
+                    lonSeleccion = bundle.getFloat("lon");
+
+                    Toast.makeText(getContext(),
+                            "Ubicación seleccionada:\nLat: " + latSeleccion + "\nLon: " + lonSeleccion,
+                            Toast.LENGTH_SHORT).show();
+                }
+        );
+
+        btnVolver.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+
+        return view;
+    }
+
+    private void cargarLista() {
+        lista = db.tiendaDao().obtenerTiendas();
+        adapter = new TiendasAdapter(lista);
+
+        recyclerTiendas.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerTiendas.setAdapter(adapter);
+
         adapter.setOnItemClickListener(tienda -> {
             tiendaSeleccionada = tienda;
+
             etNombre.setText(tienda.getNombre());
             etDireccion.setText(tienda.getDireccion());
             etHorario.setText(tienda.getHorario());
             etEstado.setText(tienda.getEstado());
 
-            // Actualizar las coordenadas temporales
-            latSeleccion = tienda.getLat();
-            lonSeleccion = tienda.getLon();
+            latSeleccion = (float) tienda.getLat();
+            lonSeleccion = (float) tienda.getLon();
         });
 
-        // Botón seleccionar ubicación
-        btnSeleccionarUbicacion.setOnClickListener(v -> {
-            MapsFragment mapsFragment = new MapsFragment();
-            mapsFragment.setOnLocationSelectedListener(location -> {
-                latSeleccion = location.latitude;
-                lonSeleccion = location.longitude;
-
-                if (tiendaSeleccionada != null) {
-                    tiendaSeleccionada.setLat(latSeleccion);
-                    tiendaSeleccionada.setLon(lonSeleccion);
-                }
-            });
-
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragmentContainer, mapsFragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        // Crear tienda
-        btnCrear.setOnClickListener(v -> {
-            String nombre = etNombre.getText().toString();
-            String direccion = etDireccion.getText().toString();
-            String horario = etHorario.getText().toString();
-            String estado = etEstado.getText().toString();
-
-            if (!nombre.isEmpty() && !direccion.isEmpty() && !horario.isEmpty() && !estado.isEmpty()) {
-                tiendaController.agregarTienda(nombre, direccion, horario, estado, latSeleccion, lonSeleccion);
-
-                listaTiendas.clear();
-                listaTiendas.addAll(tiendaController.obtenerTiendas());
-                adapter.notifyDataSetChanged();
-
-                etNombre.setText("");
-                etDireccion.setText("");
-                etHorario.setText("");
-                etEstado.setText("");
-                tiendaSeleccionada = null;
-                latSeleccion = 0.0;
-                lonSeleccion = 0.0;
-            }
-        });
-
-        // Modificar tienda seleccionada
-        btnModificar.setOnClickListener(v -> {
-            if (tiendaSeleccionada != null) {
-                tiendaSeleccionada.setNombre(etNombre.getText().toString());
-                tiendaSeleccionada.setDireccion(etDireccion.getText().toString());
-                tiendaSeleccionada.setHorario(etHorario.getText().toString());
-                tiendaSeleccionada.setEstado(etEstado.getText().toString());
-                tiendaSeleccionada.setLat(latSeleccion);
-                tiendaSeleccionada.setLon(lonSeleccion);
-
-                tiendaController.actualizarTienda(tiendaSeleccionada);
-
-                listaTiendas.clear();
-                listaTiendas.addAll(tiendaController.obtenerTiendas());
-                adapter.notifyDataSetChanged();
-
-                etNombre.setText("");
-                etDireccion.setText("");
-                etHorario.setText("");
-                etEstado.setText("");
-                tiendaSeleccionada = null;
-                latSeleccion = 0.0;
-                lonSeleccion = 0.0;
-            }
-        });
-
-        // Eliminar tienda seleccionada
-        btnEliminar.setOnClickListener(v -> {
-            if (tiendaSeleccionada != null) {
-                tiendaController.eliminarTienda(tiendaSeleccionada);
-
-                listaTiendas.clear();
-                listaTiendas.addAll(tiendaController.obtenerTiendas());
-                adapter.notifyDataSetChanged();
-
-                etNombre.setText("");
-                etDireccion.setText("");
-                etHorario.setText("");
-                etEstado.setText("");
-                tiendaSeleccionada = null;
-                latSeleccion = 0.0;
-                lonSeleccion = 0.0;
-            }
-        });
         adapter.setOnMapClickListener(tienda -> {
-            double lat = tienda.getLat();
-            double lon = tienda.getLon();
-            if (lat != 0.0 && lon != 0.0) {
-                MapsFragment mapsFragment = new MapsFragment();
-                mapsFragment.setInitialLocation(new LatLng(lat, lon));
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainer, mapsFragment)
-                        .addToBackStack(null)
-                        .commit();
-            } else {
-                Toast.makeText(getContext(), "Esta tienda no tiene ubicación asignada", Toast.LENGTH_SHORT).show();
+            float lat = (float) tienda.getLat();
+            float lon = (float) tienda.getLon();
+
+            if (lat == 0f && lon == 0f) {
+                Toast.makeText(getContext(), "Esta tienda no tiene ubicación guardada", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            Bundle args = new Bundle();
+            args.putFloat("lat", lat);
+            args.putFloat("lon", lon);
+            args.putBoolean("modoSeleccion", false);
+
+            Navigation.findNavController(requireView())
+                    .navigate(R.id.mapsFragment, args);
         });
+    }
 
+    private void crearTienda() {
+        String nombre = etNombre.getText().toString();
+        String direccion = etDireccion.getText().toString();
+        String horario = etHorario.getText().toString();
+        String estado = etEstado.getText().toString();
 
+        if (nombre.isEmpty()) {
+            Toast.makeText(getContext(), "Complete los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Volver al menú
-        btnVolver.setOnClickListener(v -> {
-            if (getActivity() instanceof MenuAdmin) {
-                ((MenuAdmin) getActivity()).showMenu();
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+        Tienda nueva = new Tienda(
+                nombre, direccion, horario, estado,
+                (double) latSeleccion, (double) lonSeleccion
+        );
 
-        // Buscar tiendas
-        etBuscar.setOnKeyListener((v, keyCode, event) -> {
-            if (event.getAction() == KeyEvent.ACTION_UP) {
-                String query = etBuscar.getText().toString();
-                listaTiendas.clear();
-                listaTiendas.addAll(tiendaController.buscarTiendas(query));
-                adapter.notifyDataSetChanged();
-            }
-            return false;
-        });
+        db.tiendaDao().insertar(nueva);
 
-        return view;
+        limpiarCampos();
+        cargarLista();
+        Toast.makeText(getContext(), "Tienda creada", Toast.LENGTH_SHORT).show();
+    }
+
+    private void modificarTienda() {
+        if (tiendaSeleccionada == null) {
+            Toast.makeText(getContext(), "Seleccione una tienda", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        tiendaSeleccionada.setNombre(etNombre.getText().toString());
+        tiendaSeleccionada.setDireccion(etDireccion.getText().toString());
+        tiendaSeleccionada.setHorario(etHorario.getText().toString());
+        tiendaSeleccionada.setEstado(etEstado.getText().toString());
+        tiendaSeleccionada.setLat((double) latSeleccion);
+        tiendaSeleccionada.setLon((double) lonSeleccion);
+
+        db.tiendaDao().actualizar(tiendaSeleccionada);
+
+        limpiarCampos();
+        cargarLista();
+        Toast.makeText(getContext(), "Modificado correctamente", Toast.LENGTH_SHORT).show();
+    }
+
+    private void eliminarTienda() {
+        if (tiendaSeleccionada == null) {
+            Toast.makeText(getContext(), "Seleccione una tienda", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        db.tiendaDao().eliminar(tiendaSeleccionada);
+
+        limpiarCampos();
+        cargarLista();
+        Toast.makeText(getContext(), "Eliminado", Toast.LENGTH_SHORT).show();
+    }
+
+    private void filtrarTiendas(String query) {
+        lista.clear();
+        lista.addAll(db.tiendaDao().buscarTiendas(query));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void limpiarCampos() {
+        etNombre.setText("");
+        etDireccion.setText("");
+        etHorario.setText("");
+        etEstado.setText("");
+        etBuscar.setText("");
+        latSeleccion = 0f;
+        lonSeleccion = 0f;
+        tiendaSeleccionada = null;
     }
 }
+

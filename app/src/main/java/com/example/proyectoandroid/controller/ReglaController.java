@@ -1,37 +1,62 @@
 package com.example.proyectoandroid.controller;
 
 import com.example.proyectoandroid.database.AppDataBase;
-import com.example.proyectoandroid.dao.ReglaDao;
 import com.example.proyectoandroid.modelo.Regla;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 public class ReglaController {
-    private final ReglaDao reglaDao;
 
-    // Constructor recibe la base de datos y obtiene el DAO
+    private final AppDataBase db;
+    private final DatabaseReference reglasRef;
+
     public ReglaController(AppDataBase db) {
-        this.reglaDao = db.reglaDao();
+        this.db = db;
+        this.reglasRef = FirebaseDatabase.getInstance().getReference("reglas");
     }
 
-    // Insertar una nueva regla
+    // -------------------------------------------------------
+    // 🔥 INSERTAR (ROOM + FIREBASE)
+    // -------------------------------------------------------
     public void agregarRegla(String nombre, String descripcion, String otros) {
-        Regla regla = new Regla(nombre, descripcion, otros);
-        reglaDao.insert(regla);
+        Regla nueva = new Regla(nombre, descripcion, otros);
+
+        // Guardar en local
+        db.reglaDao().insert(nueva);
+
+        // El ID se genera después del insert
+        int id = nueva.getId_regla();
+
+        // Guardar en Firebase
+        reglasRef.child(String.valueOf(id)).setValue(nueva);
     }
 
-    // Obtener todas las reglas
+    // -------------------------------------------------------
+    // 🔥 OBTENER DESDE ROOM
+    // -------------------------------------------------------
     public List<Regla> obtenerReglas() {
-        return reglaDao.getAll();
+        return db.reglaDao().getAll();
     }
 
-    // Actualizar una regla existente
+    // -------------------------------------------------------
+    // 🔥 ACTUALIZAR (ROOM + FIREBASE)
+    // -------------------------------------------------------
     public void actualizarRegla(Regla regla) {
-        reglaDao.update(regla);
+        db.reglaDao().update(regla);
+
+        reglasRef.child(String.valueOf(regla.getId_regla()))
+                .setValue(regla);
     }
 
-    // Eliminar una regla
+    // -------------------------------------------------------
+    // 🔥 ELIMINAR (ROOM + FIREBASE)
+    // -------------------------------------------------------
     public void eliminarRegla(Regla regla) {
-        reglaDao.delete(regla);
+        db.reglaDao().delete(regla);
+
+        reglasRef.child(String.valueOf(regla.getId_regla()))
+                .removeValue();
     }
 }

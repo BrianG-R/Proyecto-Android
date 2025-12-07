@@ -1,18 +1,16 @@
 package com.example.proyectoandroid.Vista;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import android.widget.Button;
-import androidx.activity.OnBackPressedCallback;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.proyectoandroid.R;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -21,7 +19,6 @@ import com.journeyapps.barcodescanner.CompoundBarcodeView;
 import com.google.zxing.ResultPoint;
 
 import java.util.List;
-import com.example.proyectoandroid.R;
 
 public class ScanQRFragment extends Fragment {
 
@@ -46,18 +43,15 @@ public class ScanQRFragment extends Fragment {
                     // Mostrar mensaje
                     Toast.makeText(getContext(), "QR Escaneado: " + qrValue, Toast.LENGTH_LONG).show();
 
-                    // Redirigir al menú
-                    if (getActivity() instanceof MenuAdmin) {
-                        ((MenuAdmin) getActivity()).showMenu();
-                        getActivity().getSupportFragmentManager().popBackStack();
-                    }
+                    // Volver al fragmento anterior (menú)
+                    Navigation.findNavController(view).popBackStack();
 
-                    barcodeView.pause(); // Detener scanner mientras se hace la transición
+                    barcodeView.pause();
                 }
             }
 
             @Override
-            public void possibleResultPoints(List<ResultPoint> resultPoints) { }
+            public void possibleResultPoints(List<ResultPoint> resultPoints) {}
         });
 
         return view;
@@ -67,16 +61,13 @@ public class ScanQRFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // Manejar botón de back del dispositivo
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                if (getActivity() instanceof MenuAdmin) {
-                    ((MenuAdmin) getActivity()).showMenu();
-                }
-                getParentFragmentManager().popBackStack();
-            }
-        });
+        requireActivity().getOnBackPressedDispatcher().addCallback(this,
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        Navigation.findNavController(requireView()).popBackStack();
+                    }
+                });
 
         barcodeView.resume();
     }
@@ -86,6 +77,4 @@ public class ScanQRFragment extends Fragment {
         super.onPause();
         barcodeView.pause();
     }
-
-
 }

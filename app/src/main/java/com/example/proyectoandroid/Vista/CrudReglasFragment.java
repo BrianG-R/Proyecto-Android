@@ -18,6 +18,7 @@ import com.example.proyectoandroid.modelo.Regla;
 import com.example.proyectoandroid.database.AppDataBase;
 import com.example.proyectoandroid.controller.ReglaController;
 import com.example.proyectoandroid.Adaptadores.ReglasAdapter;
+import androidx.navigation.Navigation;
 
 import java.util.List;
 
@@ -157,12 +158,10 @@ public class CrudReglasFragment extends Fragment {
         });
 
         // Volver al menú
-        btnVolver.setOnClickListener(v -> {
-            if (getActivity() instanceof MenuAdmin) {
-                ((MenuAdmin) getActivity()).showMenu();
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+        btnVolver.setOnClickListener(v ->
+                Navigation.findNavController(v).popBackStack()
+        );
+
 
         return view;
     }

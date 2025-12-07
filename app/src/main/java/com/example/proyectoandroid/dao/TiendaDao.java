@@ -1,26 +1,30 @@
 package com.example.proyectoandroid.dao;
+
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.Query;
 import androidx.room.Update;
 import androidx.room.Delete;
-import androidx.room.Query;
 
 import com.example.proyectoandroid.modelo.Tienda;
+
 import java.util.List;
+
 @Dao
-public interface TiendaDao {@Insert
-void insert(Tienda tienda);
+public interface TiendaDao {
+
+    @Insert
+    long insertar(Tienda tienda);
 
     @Update
-    void update(Tienda tienda);
+    void actualizar(Tienda tienda);
 
     @Delete
-    void delete(Tienda tienda);
+    void eliminar(Tienda tienda);
 
-    @Query("SELECT * FROM Tienda")
-    List<Tienda> getAll();
+    @Query("SELECT * FROM tienda ORDER BY id_tienda DESC")
+    List<Tienda> obtenerTiendas();
 
-    // Búsqueda por nombre
-    @Query("SELECT * FROM Tienda WHERE nombre LIKE :nombre")
-    List<Tienda> buscarPorNombre(String nombre);
+    @Query("SELECT * FROM tienda WHERE nombre LIKE :busqueda")
+    List<Tienda> buscarTiendas(String busqueda);
 }

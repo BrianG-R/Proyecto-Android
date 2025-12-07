@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <!-- LOGIN -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.proyectoandroid.Vista.LoginFragment">
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_menuAdminFragment"
+            app:destination="@id/menuAdminFragment" />
+    </fragment>
+
+    <!-- REGISTER -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.proyectoandroid.Vista.RegisterFragment">
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <!-- MENÚ ADMIN -->
+    <fragment
+        android:id="@+id/menuAdminFragment"
+        android:name="com.example.proyectoandroid.Vista.MenuAdminFragment">
+
+        <action
+            android:id="@+id/action_menuAdminFragment_to_crudReglasFragment"
+            app:destination="@id/crudReglasFragment" />
+
+        <action
+            android:id="@+id/action_menuAdminFragment_to_crudTiendasFragment"
+            app:destination="@id/crudTiendasFragment" />
+
+        <action
+            android:id="@+id/action_menuAdminFragment_to_crudBeneficiosFragment"
+            app:destination="@id/crudBeneficiosFragment" />
+
+        <action
+            android:id="@+id/action_menuAdminFragment_to_scanQRFragment"
+            app:destination="@id/scanQRFragment" />
+
+        <action
+            android:id="@+id/action_menuAdminFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+
+        <action
+            android:id="@+id/action_menuAdminFragment_to_foroFragment"
+            app:destination="@id/foroFragment" />
+    </fragment>
+
+    <!-- CRUDs -->
+    <fragment
+        android:id="@+id/crudReglasFragment"
+        android:name="com.example.proyectoandroid.Vista.CrudReglasFragment"/>
+
+    <fragment
+        android:id="@+id/crudTiendasFragment"
+        android:name="com.example.proyectoandroid.Vista.CrudTiendasFragment">
+        <action
+            android:id="@+id/action_crudTiendasFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/crudBeneficiosFragment"
+        android:name="com.example.proyectoandroid.Vista.CrudBeneficiosFragment" />
+
+    <fragment
+        android:id="@+id/scanQRFragment"
+        android:name="com.example.proyectoandroid.Vista.ScanQRFragment"/>
+
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.example.proyectoandroid.Vista.PerfilFragment" />
+
+    <fragment
+        android:id="@+id/foroFragment"
+        android:name="com.example.proyectoandroid.Vista.ForoFragment"
+        tools:layout="@layout/fragment_foro" />
+
+    <!-- MAPA -->
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.proyectoandroid.Vista.MapsFragment">
+
+        <argument
+            android:name="lat"
+            app:argType="float" />
+
+        <argument
+            android:name="lon"
+            app:argType="float" />
+
+        <argument
+            android:name="modoSeleccion"
+            app:argType="boolean" />
+    </fragment>
+
+
+</navigation>
+
