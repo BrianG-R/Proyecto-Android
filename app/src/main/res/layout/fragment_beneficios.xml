@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E3F2FD"
+    android:background="#FFF8E1"
     tools:context=".Vista.CrudBeneficiosFragment">
 
     <ScrollView
@@ -30,7 +30,7 @@
                 android:text="Menú Beneficios"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="#0D47A1"
+                android:textColor="#3E2723"
                 android:layout_marginBottom="24dp"/>
 
             <EditText
@@ -38,6 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Nombre del Beneficio"
+                android:textColor="#3E2723"
+                android:textColorHint="#5D4037"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/input_bg"
                 android:padding="12dp"/>
@@ -47,6 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Descripción del Beneficio"
+                android:textColor="#3E2723"
+                android:textColorHint="#5D4037"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/input_bg"
                 android:padding="12dp"/>
@@ -55,7 +59,9 @@
                 android:id="@+id/editTextUrlFotoBeneficio"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="URL Foto (Opcional)"
+                android:hint="URL Foto "
+                android:textColor="#3E2723"
+                android:textColorHint="#5D4037"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/input_bg"
                 android:padding="12dp"/>
@@ -73,7 +79,7 @@
                     android:layout_weight="1"
                     android:layout_height="48dp"
                     android:text="Agregar"
-                    android:background="@drawable/btn_primary"
+                    android:backgroundTint="#D9A066"
                     android:textColor="@android:color/white"
                     android:layout_marginEnd="6dp"/>
 
@@ -83,7 +89,7 @@
                     android:layout_weight="1"
                     android:layout_height="48dp"
                     android:text="Eliminar"
-                    android:background="@drawable/btn_secondary"
+                    android:backgroundTint="#D9A066"
                     android:textColor="@android:color/white"
                     android:layout_marginStart="6dp"/>
             </LinearLayout>
@@ -101,7 +107,7 @@
                     android:layout_weight="1"
                     android:layout_height="48dp"
                     android:text="Modificar"
-                    android:background="@drawable/btn_primary"
+                    android:backgroundTint="#D9A066"
                     android:textColor="@android:color/white"
                     android:layout_marginEnd="6dp"/>
 
@@ -111,7 +117,7 @@
                     android:layout_weight="1"
                     android:layout_height="48dp"
                     android:text="Volver"
-                    android:background="@drawable/btn_secondary"
+                    android:backgroundTint="#D9A066"
                     android:textColor="@android:color/white"
                     android:layout_marginStart="6dp"/>
             </LinearLayout>
@@ -129,6 +135,8 @@
                     android:layout_weight="2"
                     android:layout_height="50dp"
                     android:hint="Buscar por nombre"
+                    android:textColor="#3E2723"
+                    android:textColorHint="#5D4037"
                     android:background="@drawable/input_bg"
                     android:padding="12dp"
                     android:layout_marginEnd="8dp"/>
@@ -139,7 +147,7 @@
                     android:layout_weight="1"
                     android:layout_height="50dp"
                     android:text="Buscar"
-                    android:background="@drawable/btn_primary"
+                    android:backgroundTint="#D9A066"
                     android:textColor="@android:color/white"/>
             </LinearLayout>
 
