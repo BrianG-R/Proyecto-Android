@@ -59,6 +59,10 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.6.0")
     implementation(libs.firebase.auth)
     implementation("com.google.android.material:material:1.11.0")
+    // Glide (Necesario para cargar las fotos de internet)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
 
 
 
