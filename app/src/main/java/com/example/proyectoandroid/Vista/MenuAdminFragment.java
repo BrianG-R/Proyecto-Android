@@ -74,6 +74,11 @@ public class MenuAdminFragment extends Fragment {
                         .navigate(R.id.action_menuAdminFragment_to_gestionProductosFragment)
         );
 
+        btnClientes.setOnClickListener(v ->
+                Navigation.findNavController(v).navigate(R.id.action_menuAdminFragment_to_clienteFragment)
+        );
+
+
 
 
     }

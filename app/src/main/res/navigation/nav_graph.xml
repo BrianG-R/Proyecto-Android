@@ -55,7 +55,7 @@
             android:id="@+id/action_menuAdminFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
 
-        <!-- NUEVOS FRAGMENTS DEL MERGE -->
+        <!-- NUEVOS DEL MERGE -->
         <action
             android:id="@+id/action_menuAdminFragment_to_catalogoProductosFragment"
             app:destination="@id/catalogoProductosFragment" />
@@ -67,12 +67,18 @@
         <action
             android:id="@+id/action_menuAdminFragment_to_gestionProductosFragment"
             app:destination="@id/gestionProductosFragment" />
+
+        <!-- NUEVA ACCIÓN PARA CLIENTES -->
+        <action
+            android:id="@+id/action_menuAdminFragment_to_clienteFragment"
+            app:destination="@id/clienteFragment" />
+
     </fragment>
 
     <!-- CRUDs -->
     <fragment
         android:id="@+id/crudReglasFragment"
-        android:name="com.example.proyectoandroid.Vista.CrudReglasFragment"/>
+        android:name="com.example.proyectoandroid.Vista.CrudReglasFragment" />
 
     <fragment
         android:id="@+id/crudTiendasFragment"
@@ -88,7 +94,7 @@
 
     <fragment
         android:id="@+id/scanQRFragment"
-        android:name="com.example.proyectoandroid.Vista.ScanQRFragment"/>
+        android:name="com.example.proyectoandroid.Vista.ScanQRFragment" />
 
     <fragment
         android:id="@+id/perfilFragment"
@@ -103,13 +109,12 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.example.proyectoandroid.Vista.MapsFragment">
-        <argument android:name="lat" app:argType="float"/>
-        <argument android:name="lon" app:argType="float"/>
-        <argument android:name="modoSeleccion" app:argType="boolean"/>
+        <argument android:name="lat" app:argType="float" />
+        <argument android:name="lon" app:argType="float" />
+        <argument android:name="modoSeleccion" app:argType="boolean" />
     </fragment>
 
-    <!-- NUEVOS FRAGMENTS AÑADIDOS -->
-
+    <!-- NUEVOS FRAGMENTS -->
     <fragment
         android:id="@+id/catalogoProductosFragment"
         android:name="com.example.proyectoandroid.Vista.CatalogoProductosFragment"
@@ -124,5 +129,11 @@
         android:id="@+id/gestionProductosFragment"
         android:name="com.example.proyectoandroid.Vista.GestionProductosFragment"
         tools:layout="@layout/fragment_gestion_productos" />
+
+    <!-- CLIENTE -->
+    <fragment
+        android:id="@+id/clienteFragment"
+        android:name="com.example.proyectoandroid.Vista.ClienteFragment"
+        tools:layout="@layout/fragment_cliente" />
 
 </navigation>
