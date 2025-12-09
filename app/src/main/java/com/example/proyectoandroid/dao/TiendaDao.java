@@ -27,4 +27,8 @@ public interface TiendaDao {
 
     @Query("SELECT * FROM tienda WHERE nombre LIKE :busqueda")
     List<Tienda> buscarTiendas(String busqueda);
+
+    // 🔥 NECESARIO PARA SINCRONIZAR ROOM ↔ FIREBASE
+    @Query("DELETE FROM tienda")
+    void eliminarTodas();
 }

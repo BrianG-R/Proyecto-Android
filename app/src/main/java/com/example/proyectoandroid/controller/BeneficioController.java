@@ -15,9 +15,10 @@ public class BeneficioController {
         this.beneficioRef = FirebaseDatabase.getInstance().getReference("beneficios");
     }
 
-    public void agregarBeneficio(String nombre, String descripcion, String urlFoto) {
-        Beneficio nuevo = new Beneficio(nombre, descripcion, urlFoto);
+    public void agregarBeneficio(String nombre, String descripcion, String urlFoto, int costo) {
+        Beneficio nuevo = new Beneficio(nombre, descripcion, urlFoto, costo);
         db.beneficioDao().insert(nuevo);
+
         String key = beneficioRef.push().getKey();
         if (key != null) {
             nuevo.setId(Math.abs(key.hashCode()));

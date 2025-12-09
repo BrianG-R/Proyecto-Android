@@ -74,6 +74,16 @@
             android:backgroundTint="#D9A066"
             android:textColor="@android:color/white" />
 
+        <Button
+            android:id="@+id/btnHistorialCanjes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Historial de Canjes"
+            android:background="@drawable/bg_boton_claro"
+            android:textColor="#000"
+            android:layout_marginTop="12dp"/>
+
+
         <!-- CERRAR SESIÓN -->
         <Button
             android:id="@+id/btnCerrarSesion"

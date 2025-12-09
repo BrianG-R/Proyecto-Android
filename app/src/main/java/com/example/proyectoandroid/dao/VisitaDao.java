@@ -2,23 +2,27 @@ package com.example.proyectoandroid.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
-import androidx.room.Update;
-import androidx.room.Delete;
 import androidx.room.Query;
+
+import com.example.proyectoandroid.modelo.Visita;   //  ← FALTA ESTE IMPORT
+
 import java.util.List;
-import com.example.proyectoandroid.modelo.Visita;
 
 @Dao
 public interface VisitaDao {
+
     @Insert
-    void insert(Visita visita);
+    void insertarVisita(Visita visita);
 
-    @Update
-    void update(Visita visita);
+    @Query("SELECT * FROM visita WHERE uid = :uid ORDER BY fecha_hora DESC")
+    List<Visita> obtenerHistorialVisitas(String uid);
 
-    @Delete
-    void delete(Visita visita);
+    @Query("SELECT * FROM visita WHERE uid = :uid AND diaScan = :dia LIMIT 1")
+    Visita obtenerVisitaDeHoy(String uid, int dia);
 
-    @Query("SELECT * FROM Visita")
-    List<Visita> getAll();
+    @Query("SELECT COUNT(*) FROM visita WHERE uid = :uid")
+    int totalVisitasPorUsuario(String uid);
+
+    @Query("DELETE FROM visita WHERE uid = :uid")
+    void eliminarVisitasPorUid(String uid);
 }

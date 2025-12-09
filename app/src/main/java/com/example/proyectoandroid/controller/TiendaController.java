@@ -1,25 +1,29 @@
 package com.example.proyectoandroid.controller;
 
+import android.content.Context;
+
 import com.example.proyectoandroid.dao.TiendaDao;
 import com.example.proyectoandroid.database.AppDataBase;
-import com.example.proyectoandroid.firebase.TiendaRepositoryFirebase;
 import com.example.proyectoandroid.modelo.Tienda;
+import com.example.proyectoandroid.modelo.TiendaRepository;
 
 import java.util.List;
 
 public class TiendaController {
 
     private final TiendaDao tiendaDao;
-    private final TiendaRepositoryFirebase firebaseRepo;
+    private final TiendaRepository firebaseRepo;
 
-    public TiendaController(AppDataBase db) {
+    public TiendaController(AppDataBase db, Context context) {
         this.tiendaDao = db.tiendaDao();
-        this.firebaseRepo = new TiendaRepositoryFirebase();
+        this.firebaseRepo = new TiendaRepository(context);  // ✔ ahora requiere contexto
     }
 
-    // Crear tienda
+    // --------------------------------------------
+    // 🔥 CREAR tienda → Room + Firebase
+    // --------------------------------------------
     public void agregarTienda(String nombre, String direccion, String horario,
-                             String estado, float lat, float lon) {
+                              String estado, float lat, float lon) {
 
         Tienda tienda = new Tienda(
                 nombre,
@@ -30,28 +34,47 @@ public class TiendaController {
                 (double) lon
         );
 
-        tiendaDao.insertar(tienda);
+        long idLocal = tiendaDao.insertar(tienda);
+        tienda.setId_tienda((int) idLocal);
+
+        // 🔥 Subir a Firebase
+        firebaseRepo.guardarTienda(tienda);
     }
 
-    // Obtener todas las tiendas
+    // --------------------------------------------
+    // 🔥 Obtener tiendas desde ROOM (rápido)
+    // --------------------------------------------
     public List<Tienda> obtenerTiendas() {
         return tiendaDao.obtenerTiendas();
     }
 
-    // Actualizar tienda
+    // --------------------------------------------
+    // 🔥 Actualizar → Room + Firebase
+    // --------------------------------------------
     public void actualizarTienda(Tienda tienda) {
         tiendaDao.actualizar(tienda);
-        firebaseRepo.guardarTienda(tienda); // actualizar también online
+        firebaseRepo.guardarTienda(tienda);
     }
 
-    // Eliminar tienda
+    // --------------------------------------------
+    // 🔥 Eliminar → Room + Firebase
+    // --------------------------------------------
     public void eliminarTienda(Tienda tienda) {
         tiendaDao.eliminar(tienda);
         firebaseRepo.eliminarTienda(tienda);
     }
 
-    // Buscar tiendas por nombre
+    // --------------------------------------------
+    // 🔎 Buscar por nombre
+    // --------------------------------------------
     public List<Tienda> buscarTiendas(String nombre) {
         return tiendaDao.buscarTiendas("%" + nombre + "%");
+    }
+
+    // --------------------------------------------
+    // 🔥 Forzar sincronización Room ↔ Firebase
+    // --------------------------------------------
+    public void sincronizar() {
+        firebaseRepo.sincronizarConRoom();
     }
 }

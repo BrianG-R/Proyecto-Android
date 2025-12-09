@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "beneficio")
 public class Beneficio {
+
     @PrimaryKey(autoGenerate = true)
     public int id;
 
@@ -16,23 +17,36 @@ public class Beneficio {
     public String descripcion;
 
     @ColumnInfo(name = "url_foto")
-    public String urlFoto; // <--- ESTO FALTABA
+    public String urlFoto;
 
-    public Beneficio() { this.urlFoto = ""; }
+    @ColumnInfo(name = "costo")
+    public int costo;
 
-    public Beneficio(String nombre, String descripcion, String urlFoto) {
+    public Beneficio() {
+        this.urlFoto = "";
+        this.costo = 0;
+    }
+
+    public Beneficio(String nombre, String descripcion, String urlFoto, int costo) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.urlFoto = urlFoto;
+        this.costo = costo;
     }
 
     // Getters y Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
+
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
+
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
     public String getUrlFoto() { return urlFoto; }
     public void setUrlFoto(String urlFoto) { this.urlFoto = urlFoto; }
+
+    public int getCosto() { return costo; }
+    public void setCosto(int costo) { this.costo = costo; }
 }

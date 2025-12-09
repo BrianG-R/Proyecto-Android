@@ -29,7 +29,8 @@ public class ClienteController {
 
     // READ
     public List<Cliente> obtenerClientes() {
-        return clienteDao.getAll();
+        return clienteDao.getAllClientes();
+
     }
 
     public Cliente obtenerClientePorUid(String uid) {

@@ -28,8 +28,7 @@
                 android:id="@+id/imgBeneficioItem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@android:drawable/ic_menu_gallery" />
+                android:scaleType="centerCrop"/>
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -45,35 +44,55 @@
 
             <TextView
                 android:id="@+id/tvNombreItem"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre Beneficio"
+                android:text="Nombre"
                 android:textStyle="bold"
-                android:textColor="#3E2723"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="#3E2723"/>
 
             <TextView
                 android:id="@+id/tvDescItem"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Descripción..."
-                android:textColor="#5D4037"
+                android:text="Descripción"
                 android:textSize="12sp"
+                android:textColor="#5D4037"
                 android:maxLines="2"
                 android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/tvCostoItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Costo: 0 pts"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="#6D4C41"
+                android:layout_marginTop="4dp"/>
+
+            <Button
+                android:id="@+id/btnCanjearItem"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Canjear"
+                android:background="@drawable/btn_secondary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="6dp"
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <Button
             android:id="@+id/btnGenerarQRItem"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="40dp"
             android:text="QR"
-            android:textSize="12sp"
             android:background="@drawable/btn_primary"
             android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="12sp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -20,11 +20,12 @@ import java.util.List;
 public class BeneficiosAdapter extends RecyclerView.Adapter<BeneficiosAdapter.ViewHolder> {
 
     private final List<Beneficio> listaBeneficios;
-    private final Context context; // Necesario para cargar imágenes con Glide
+    private final Context context;
+
     private OnItemClickListener itemClickListener;
     private OnQRClickListener qrClickListener;
+    private OnCanjearClickListener canjearClickListener;
 
-    // Interfaces para manejar los clics
     public interface OnItemClickListener {
         void onItemClick(Beneficio beneficio);
     }
@@ -33,13 +34,10 @@ public class BeneficiosAdapter extends RecyclerView.Adapter<BeneficiosAdapter.Vi
         void onQRClick(Beneficio beneficio);
     }
 
-    // Constructor actualizado
-    public BeneficiosAdapter(List<Beneficio> listaBeneficios, Context context) {
-        this.listaBeneficios = listaBeneficios;
-        this.context = context;
+    public interface OnCanjearClickListener {
+        void onCanjearClick(Beneficio beneficio);
     }
 
-    // Métodos para configurar los listeners
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.itemClickListener = listener;
     }
@@ -48,48 +46,52 @@ public class BeneficiosAdapter extends RecyclerView.Adapter<BeneficiosAdapter.Vi
         this.qrClickListener = listener;
     }
 
+    public void setOnCanjearClickListener(OnCanjearClickListener listener) {
+        this.canjearClickListener = listener;
+    }
+
+    public BeneficiosAdapter(List<Beneficio> listaBeneficios, Context context) {
+        this.listaBeneficios = listaBeneficios;
+        this.context = context;
+    }
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflamos el diseño de la tarjeta individual (item_beneficio.xml)
+    public BeneficiosAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_beneficio, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BeneficiosAdapter.ViewHolder holder, int position) {
+
         Beneficio beneficio = listaBeneficios.get(position);
 
-        // 1. Asignar textos
         holder.textViewNombre.setText(beneficio.getNombre());
         holder.textViewDescripcion.setText(beneficio.getDescripcion());
+        holder.textViewCosto.setText("Costo: " + beneficio.getCosto() + " pts");
 
-        // 2. CARGAR LA IMAGEN CON GLIDE
-        // Verificamos si hay URL, si no, ponemos una imagen por defecto
         if (beneficio.getUrlFoto() != null && !beneficio.getUrlFoto().isEmpty()) {
             Glide.with(context)
                     .load(beneficio.getUrlFoto())
-                    .circleCrop() // Esto hace que la imagen se vea redonda
-                    .placeholder(R.drawable.ic_launcher_background) // Imagen mientras carga
-                    .error(R.drawable.ic_launcher_background) // Imagen si falla el link
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_launcher_background)
                     .into(holder.imgBeneficio);
         } else {
             holder.imgBeneficio.setImageResource(R.drawable.ic_launcher_background);
         }
 
-        // 3. Configurar Clic en la tarjeta (Para editar/borrar)
         holder.itemView.setOnClickListener(v -> {
-            if (itemClickListener != null) {
-                itemClickListener.onItemClick(beneficio);
-            }
+            if (itemClickListener != null) itemClickListener.onItemClick(beneficio);
         });
 
-        // 4. Configurar Clic en el botón QR
-        holder.btnGenerarQR.setOnClickListener(v -> {
-            if (qrClickListener != null) {
-                qrClickListener.onQRClick(beneficio);
-            }
+        holder.btnQR.setOnClickListener(v -> {
+            if (qrClickListener != null) qrClickListener.onQRClick(beneficio);
+        });
+
+        holder.btnCanjear.setOnClickListener(v -> {
+            if (canjearClickListener != null) canjearClickListener.onCanjearClick(beneficio);
         });
     }
 
@@ -98,20 +100,24 @@ public class BeneficiosAdapter extends RecyclerView.Adapter<BeneficiosAdapter.Vi
         return listaBeneficios.size();
     }
 
-    // CLASE VIEWHOLDER: Vincula los elementos visuales
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewNombre;
-        TextView textViewDescripcion;
-        Button btnGenerarQR;
+
+        TextView textViewNombre, textViewDescripcion, textViewCosto;
+        Button btnQR, btnCanjear;
         ImageView imgBeneficio;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Estos IDs deben existir EXACTAMENTE IGUAL en tu archivo item_beneficio.xml
+
             textViewNombre = itemView.findViewById(R.id.tvNombreItem);
             textViewDescripcion = itemView.findViewById(R.id.tvDescItem);
-            btnGenerarQR = itemView.findViewById(R.id.btnGenerarQRItem);
+            textViewCosto = itemView.findViewById(R.id.tvCostoItem);
+
+            btnQR = itemView.findViewById(R.id.btnGenerarQRItem);
+            btnCanjear = itemView.findViewById(R.id.btnCanjearItem);
+
             imgBeneficio = itemView.findViewById(R.id.imgBeneficioItem);
         }
     }
 }
+

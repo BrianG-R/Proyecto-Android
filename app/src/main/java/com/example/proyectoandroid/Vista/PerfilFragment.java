@@ -31,6 +31,8 @@ import com.google.firebase.database.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import androidx.navigation.Navigation;
+
 
 public class PerfilFragment extends Fragment {
 
@@ -59,6 +61,7 @@ public class PerfilFragment extends Fragment {
 
         btnGuardar = view.findViewById(R.id.btnGuardarPerfil);
         btnCerrar = view.findViewById(R.id.btnCerrarSesion);
+        Button btnHistorial = view.findViewById(R.id.btnHistorialCanjes);
 
         uid = FirebaseAuth.getInstance().getUid();
 
@@ -67,6 +70,9 @@ public class PerfilFragment extends Fragment {
         imgPerfil.setOnClickListener(v -> abrirGaleria());
         btnGuardar.setOnClickListener(v -> guardarPerfil());
         btnCerrar.setOnClickListener(v -> FirebaseAuth.getInstance().signOut());
+        btnHistorial.setOnClickListener(v ->
+                Navigation.findNavController(v).navigate(R.id.historialCanjesFragment)
+        );
     }
 
     // ------------------------------------------------

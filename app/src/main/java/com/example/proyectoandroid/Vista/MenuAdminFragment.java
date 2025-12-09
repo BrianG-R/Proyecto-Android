@@ -78,6 +78,13 @@ public class MenuAdminFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_menuAdminFragment_to_clienteFragment)
         );
 
+        Button btnGenerarQRDiario = view.findViewById(R.id.btnGenerarQRDiario);
+
+        btnGenerarQRDiario.setOnClickListener(v ->
+                Navigation.findNavController(v).navigate(R.id.generarQRDiarioFragment)
+        );
+
+
 
 
 

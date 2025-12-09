@@ -33,7 +33,7 @@ import com.example.proyectoandroid.modelo.Visita;
                 Visita.class,
                 Canje.class
         },
-        version = 9,
+        version = 17,
         exportSchema = false
 )
 @TypeConverters({Converters.class})

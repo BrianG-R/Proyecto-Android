@@ -17,6 +17,8 @@ import com.example.proyectoandroid.Adaptadores.ClienteAdapter;
 import com.example.proyectoandroid.R;
 import com.example.proyectoandroid.controller.ClienteController;
 import com.example.proyectoandroid.modelo.Cliente;
+import androidx.navigation.Navigation;
+
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class ClienteFragment extends Fragment {
     private ClienteAdapter adapter;
 
     private EditText etUid, etNombre, etTelefono, etFechaNacimiento, etEstado, etFoto, etBuscar;
-    private Button btnCrear, btnModificar, btnEliminar, btnBuscar;
+    private Button btnCrear, btnModificar, btnEliminar, btnBuscar, btnVolver;
 
     private RecyclerView recyclerClientes;
 
@@ -52,6 +54,8 @@ public class ClienteFragment extends Fragment {
         btnModificar = v.findViewById(R.id.btnModificarCliente);
         btnEliminar = v.findViewById(R.id.btnEliminarCliente);
         btnBuscar = v.findViewById(R.id.btnBuscarCliente);
+        btnVolver = v.findViewById(R.id.btnVolver);
+
 
         recyclerClientes = v.findViewById(R.id.recyclerClientes);
         recyclerClientes.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -106,6 +110,12 @@ public class ClienteFragment extends Fragment {
                 recyclerClientes.setAdapter(adapter);
             }
         });
+        btnVolver.setOnClickListener(view ->
+                Navigation.findNavController(view)
+                        .navigate(R.id.action_clienteFragment_to_menuAdminFragment)
+        );
+
+
 
         return v;
     }

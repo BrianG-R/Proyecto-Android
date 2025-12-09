@@ -52,10 +52,9 @@
             app:destination="@id/foroFragment" />
 
         <action
-            android:id="@+id/action_menuAdminFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_menuAdminFragment_to_clienteFragment"
+            app:destination="@id/clienteFragment" />
 
-        <!-- NUEVOS DEL MERGE -->
         <action
             android:id="@+id/action_menuAdminFragment_to_catalogoProductosFragment"
             app:destination="@id/catalogoProductosFragment" />
@@ -68,18 +67,23 @@
             android:id="@+id/action_menuAdminFragment_to_gestionProductosFragment"
             app:destination="@id/gestionProductosFragment" />
 
-        <!-- NUEVA ACCIÓN PARA CLIENTES -->
+        <!-- NUEVO: QR DIARIO -->
         <action
-            android:id="@+id/action_menuAdminFragment_to_clienteFragment"
-            app:destination="@id/clienteFragment" />
+            android:id="@+id/action_menuAdminFragment_to_generarQRDiarioFragment"
+            app:destination="@id/generarQRDiarioFragment" />
+
+        <action
+            android:id="@+id/action_menuAdminFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
 
     </fragment>
 
-    <!-- CRUDs -->
+    <!-- CRUD REGLAS -->
     <fragment
         android:id="@+id/crudReglasFragment"
         android:name="com.example.proyectoandroid.Vista.CrudReglasFragment" />
 
+    <!-- CRUD TIENDAS -->
     <fragment
         android:id="@+id/crudTiendasFragment"
         android:name="com.example.proyectoandroid.Vista.CrudTiendasFragment">
@@ -88,22 +92,55 @@
             app:destination="@id/mapsFragment" />
     </fragment>
 
+    <!-- CRUD BENEFICIOS -->
     <fragment
         android:id="@+id/crudBeneficiosFragment"
-        android:name="com.example.proyectoandroid.Vista.CrudBeneficiosFragment" />
+        android:name="com.example.proyectoandroid.Vista.CrudBeneficiosFragment" >
+        <action
+            android:id="@+id/action_crudBeneficiosFragment_to_generarQRFragment"
+            app:destination="@id/generarQRFragment" />
+    </fragment>
 
+
+    <!-- SCAN QR -->
     <fragment
         android:id="@+id/scanQRFragment"
         android:name="com.example.proyectoandroid.Vista.ScanQRFragment" />
 
+    <!-- PERFIL -->
     <fragment
         android:id="@+id/perfilFragment"
         android:name="com.example.proyectoandroid.Vista.PerfilFragment" />
 
+    <!-- FORO -->
     <fragment
         android:id="@+id/foroFragment"
-        android:name="com.example.proyectoandroid.Vista.ForoFragment"
-        tools:layout="@layout/fragment_foro" />
+        android:name="com.example.proyectoandroid.Vista.ForoFragment" />
+
+    <!-- CLIENTE -->
+    <fragment
+        android:id="@+id/clienteFragment"
+        android:name="com.example.proyectoandroid.Vista.ClienteFragment">
+
+        <action
+            android:id="@+id/action_clienteFragment_to_menuAdminFragment"
+            app:destination="@id/menuAdminFragment" />
+
+    </fragment>
+
+
+    <!-- PRODUCTOS -->
+    <fragment
+        android:id="@+id/catalogoProductosFragment"
+        android:name="com.example.proyectoandroid.Vista.CatalogoProductosFragment" />
+
+    <fragment
+        android:id="@+id/productosFragment"
+        android:name="com.example.proyectoandroid.Vista.ProductosFragment" />
+
+    <fragment
+        android:id="@+id/gestionProductosFragment"
+        android:name="com.example.proyectoandroid.Vista.GestionProductosFragment" />
 
     <!-- MAPA -->
     <fragment
@@ -114,26 +151,22 @@
         <argument android:name="modoSeleccion" app:argType="boolean" />
     </fragment>
 
-    <!-- NUEVOS FRAGMENTS -->
+    <!-- QR DEL CANJE (YA EXISTÍA) -->
     <fragment
-        android:id="@+id/catalogoProductosFragment"
-        android:name="com.example.proyectoandroid.Vista.CatalogoProductosFragment"
-        tools:layout="@layout/fragment_catalogo_productos" />
+        android:id="@+id/generarQRFragment"
+        android:name="com.example.proyectoandroid.Vista.GenerarQRFragment"
+        tools:layout="@layout/fragment_generar_qr" />
 
+    <!-- QR DIARIO (NUEVO) -->
     <fragment
-        android:id="@+id/productosFragment"
-        android:name="com.example.proyectoandroid.Vista.ProductosFragment"
-        tools:layout="@layout/fragment_productos" />
+        android:id="@+id/generarQRDiarioFragment"
+        android:name="com.example.proyectoandroid.Vista.GenerarQRDiarioFragment"
+        tools:layout="@layout/fragment_generar_qr_diario" />
+    <fragment
+        android:id="@+id/historialCanjesFragment"
+        android:name="com.example.proyectoandroid.Vista.HistorialCanjesFragment"
+        android:label="Historial de Canjes"
+        tools:layout="@layout/fragment_historial_canjes" />
 
-    <fragment
-        android:id="@+id/gestionProductosFragment"
-        android:name="com.example.proyectoandroid.Vista.GestionProductosFragment"
-        tools:layout="@layout/fragment_gestion_productos" />
-
-    <!-- CLIENTE -->
-    <fragment
-        android:id="@+id/clienteFragment"
-        android:name="com.example.proyectoandroid.Vista.ClienteFragment"
-        tools:layout="@layout/fragment_cliente" />
 
 </navigation>

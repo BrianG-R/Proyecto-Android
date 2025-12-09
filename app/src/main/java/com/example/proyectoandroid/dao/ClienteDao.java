@@ -12,8 +12,9 @@ import com.example.proyectoandroid.modelo.Cliente;
 @Dao
 public interface ClienteDao {
 
+    // 🔥 Nuevo: usado por ClienteRepository
     @Query("SELECT * FROM Cliente")
-    List<Cliente> getAll();
+    List<Cliente> getAllClientes();
 
     @Query("SELECT * FROM Cliente WHERE uid = :uid LIMIT 1")
     Cliente getByUid(String uid);

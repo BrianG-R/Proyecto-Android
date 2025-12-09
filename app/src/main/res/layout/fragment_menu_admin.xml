@@ -84,6 +84,16 @@
             android:textColor="#3E2723" />
 
         <Button
+            android:id="@+id/btnGenerarQRDiario"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Generar QR Diario"
+            android:backgroundTint="#D9A066"
+            android:textColor="#3E2723"
+            android:layout_marginTop="16dp"/>
+
+
+        <Button
             android:id="@+id/btnForo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
