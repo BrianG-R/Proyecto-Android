@@ -1,39 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
     android:layout_margin="8dp"
-    android:background="#D9A066"
-    android:elevation="4dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="@android:color/white">
 
-    <TextView
-        android:id="@+id/textViewNombreBeneficio"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombre del Beneficio"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:textColor="@color/brown_dark"/>/>
+        android:padding="12dp">
 
-    <TextView
-        android:id="@+id/textViewDescripcionBeneficio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Descripción del beneficio"
-        android:textSize="14sp"
-        android:textColor="#555555" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardImageContainer"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:cardCornerRadius="35dp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-    <!-- Botón Generar QR -->
-    <Button
-        android:id="@+id/btnGenerarQR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Generar QR"
-        android:backgroundTint="#3E2723"
-        android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/imgBeneficioItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_gallery" />
+        </androidx.cardview.widget.CardView>
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@id/cardImageContainer"
+            app:layout_constraintEnd_toStartOf="@id/btnGenerarQRItem"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/tvNombreItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre Beneficio"
+                android:textStyle="bold"
+                android:textColor="#3E2723"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvDescItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descripción..."
+                android:textColor="#5D4037"
+                android:textSize="12sp"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnGenerarQRItem"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="QR"
+            android:textSize="12sp"
+            android:background="@drawable/btn_primary"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

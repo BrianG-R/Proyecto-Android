@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-        android:background="#FFF8E1"
+    android:background="#FFF8E1"
     tools:context=".Vista.CrudBeneficiosFragment">
 
     <ScrollView
@@ -23,7 +23,6 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
-            <!-- Título -->
             <TextView
                 android:id="@+id/textViewTitle"
                 android:layout_width="wrap_content"
@@ -34,53 +33,65 @@
                 android:textColor="#3E2723"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- EditTexts -->
             <EditText
                 android:id="@+id/editTextNombreBeneficio"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:hint="Nombre del Beneficio"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="#D9A066"
                 android:textColor="#3E2723"
-                android:padding="8dp"/>
+                android:textColorHint="#5D4037"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/input_bg"
+                android:padding="12dp"/>
 
             <EditText
                 android:id="@+id/editTextDescripcionBeneficio"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:hint="Descripción del Beneficio"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="#D9A066"
                 android:textColor="#3E2723"
-                android:padding="8dp"/>
+                android:textColorHint="#5D4037"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/input_bg"
+                android:padding="12dp"/>
 
-            <!-- Botones principales -->
+            <EditText
+                android:id="@+id/editTextUrlFotoBeneficio"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="URL Foto "
+                android:textColor="#3E2723"
+                android:textColorHint="#5D4037"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/input_bg"
+                android:padding="12dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="8dp">
 
                 <Button
                     android:id="@+id/buttonAgregarBeneficio"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:text="Agregar"
                     android:backgroundTint="#D9A066"
-                    android:textColor="#3E2723"
-                    android:layout_marginEnd="8dp"/>
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="6dp"/>
 
                 <Button
                     android:id="@+id/buttonEliminarBeneficio"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:text="Eliminar"
                     android:backgroundTint="#D9A066"
-                    android:textColor="#3E2723"/>
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="6dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -94,23 +105,23 @@
                     android:id="@+id/btnModificar"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:text="Modificar"
                     android:backgroundTint="#D9A066"
-                    android:textColor="#3E2723"
-                    android:layout_marginEnd="8dp"/>
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="6dp"/>
 
                 <Button
                     android:id="@+id/buttonVolver"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:text="Volver"
                     android:backgroundTint="#D9A066"
-                    android:textColor="#3E2723"/>
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="6dp"/>
             </LinearLayout>
 
-            <!-- EditText y botón buscar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,32 +133,30 @@
                     android:id="@+id/editTextBuscar"
                     android:layout_width="0dp"
                     android:layout_weight="2"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:hint="Buscar por nombre"
-                    android:backgroundTint="#D9A066"
                     android:textColor="#3E2723"
-                    android:padding="8dp"
+                    android:textColorHint="#5D4037"
+                    android:background="@drawable/input_bg"
+                    android:padding="12dp"
                     android:layout_marginEnd="8dp"/>
 
                 <Button
                     android:id="@+id/btnBuscar"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:text="Buscar"
                     android:backgroundTint="#D9A066"
-                    android:textColor="#3E2723"/>
+                    android:textColor="@android:color/white"/>
             </LinearLayout>
 
-            <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewBeneficios"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:background="#FFF3E0"
-                android:padding="8dp"/>
+                android:padding="4dp"/>
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
