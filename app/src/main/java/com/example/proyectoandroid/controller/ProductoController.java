@@ -1,8 +1,11 @@
 package com.example.proyectoandroid.controller;
 
+import android.content.Context; // IMPORTANTE
+
 import com.example.proyectoandroid.database.AppDataBase;
 import com.example.proyectoandroid.dao.ProductosDao;
 import com.example.proyectoandroid.modelo.Producto;
+import com.example.proyectoandroid.modelo.ProductoRepository; // IMPORTANTE
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -11,26 +14,30 @@ import java.util.List;
 public class ProductoController {
     private final ProductosDao productosDao;
     private final DatabaseReference mDatabase;
+    private final ProductoRepository repository; // Declarar repositorio para activar el listener
 
-    public ProductoController(AppDataBase db) {
+    // CAMBIO: El constructor ahora pide Context para iniciar el repositorio
+    public ProductoController(Context context) {
+        // Usamos la instancia Singleton de la base de datos
+        AppDataBase db = AppDataBase.getInstance(context);
         this.productosDao = db.productoDao();
         this.mDatabase = FirebaseDatabase.getInstance().getReference("productos");
+
+        // ¡ESTA ES LA CLAVE! Al instanciar el repositorio, arranca el Listener de Firebase
+        this.repository = new ProductoRepository(context);
     }
 
     public List<Producto> buscarPorNombre(String nombre) {
         return productosDao.buscarPorNombre(nombre);
     }
 
-    // MÉTODO ACTUALIZADO: Ahora recibe 'String imagen'
     public void agregarProducto(String nombre, double precio, boolean disponible, int stock, String imagen) {
-
-        // Creamos el producto con todos los datos, incluyendo la imagen
         Producto producto = new Producto(nombre, precio, disponible, stock, imagen);
 
-        // 1. Guardar en Room (Local)
+        // Guardamos en local (Room)
         productosDao.insert(producto);
 
-        // 2. Guardar en Firebase (Nube)
+        // Guardamos en Nube (Firebase)
         if (producto.getId() == 0) {
             String key = mDatabase.push().getKey();
             if (key != null) {
@@ -46,18 +53,12 @@ public class ProductoController {
     }
 
     public void actualizarProducto(Producto producto) {
-        // Actualizar en Local
         productosDao.update(producto);
-
-        // Actualizar en Nube (Simulando actualización simple)
-        // Nota: En un entorno real idealmente usarías la key de Firebase,
-        // pero para esta demo asumimos que se sincroniza
         mDatabase.child(String.valueOf(producto.getId())).setValue(producto);
     }
 
     public void eliminarProducto(Producto producto) {
         productosDao.delete(producto);
-        // Eliminar de Nube si fuera necesario
         mDatabase.child(String.valueOf(producto.getId())).removeValue();
     }
 }

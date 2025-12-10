@@ -24,13 +24,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.example.proyectoandroid.R;
 import com.example.proyectoandroid.modelo.Producto;
 import com.example.proyectoandroid.Adaptadores.ProductoAdapter;
 import com.example.proyectoandroid.controller.ProductoController;
-import com.example.proyectoandroid.database.AppDataBase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -51,7 +49,7 @@ public class GestionProductosFragment extends Fragment {
     private Button btnCrear, btnModificar, btnEliminar, btnBuscar, btnVolver;
 
     private Producto productoSeleccionado = null;
-    private String imagenBase64 = ""; // Variable para guardar el texto de la imagen
+    private String imagenBase64 = "";
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -62,13 +60,8 @@ public class GestionProductosFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_gestion_productos, container, false);
 
-        AppDataBase db = Room.databaseBuilder(
-                requireContext(),
-                AppDataBase.class,
-                "cafeteria-db"
-        ).allowMainThreadQueries().build();
-
-        productoController = new ProductoController(db);
+        // --- CAMBIO IMPORTANTE: Inicialización con Contexto para activar Sync ---
+        productoController = new ProductoController(requireContext());
 
         recyclerView = view.findViewById(R.id.recyclerGestion);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -83,7 +76,6 @@ public class GestionProductosFragment extends Fragment {
         checkDisponible = view.findViewById(R.id.etEstadoProducto);
         etBuscar = view.findViewById(R.id.etBuscar);
 
-        // Vistas de Imagen
         ivFoto = view.findViewById(R.id.ivFotoProducto);
         btnSeleccionarFoto = view.findViewById(R.id.btnSeleccionarFoto);
 
@@ -93,10 +85,8 @@ public class GestionProductosFragment extends Fragment {
         btnBuscar = view.findViewById(R.id.btnBuscar);
         btnVolver = view.findViewById(R.id.btnVolver);
 
-        // Listener para abrir galería
         btnSeleccionarFoto.setOnClickListener(v -> abrirGaleria());
 
-        // Listener de selección de producto
         adapter.setOnItemClickListener(producto -> {
             productoSeleccionado = producto;
 
@@ -105,7 +95,6 @@ public class GestionProductosFragment extends Fragment {
             etStock.setText(String.valueOf(producto.getStock()));
             checkDisponible.setChecked(producto.isDisponible());
 
-            // Cargar imagen si existe
             if (producto.getImagen() != null && !producto.getImagen().isEmpty()) {
                 imagenBase64 = producto.getImagen();
                 try {
@@ -135,9 +124,6 @@ public class GestionProductosFragment extends Fragment {
         return view;
     }
 
-    // -------------------------------------------------------------
-    // LÓGICA DE IMAGEN (Galería -> Bitmap -> Base64)
-    // -------------------------------------------------------------
     private void abrirGaleria() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
@@ -153,7 +139,6 @@ public class GestionProductosFragment extends Fragment {
                 InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-                // Redimensionar imagen si es muy grande para evitar problemas de memoria
                 Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
 
                 ivFoto.setImageBitmap(resizedBitmap);
@@ -173,10 +158,6 @@ public class GestionProductosFragment extends Fragment {
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
-    // -------------------------------------------------------------
-    // CRUD
-    // -------------------------------------------------------------
-
     private void crearProducto() {
         String nombre = etNombre.getText().toString().trim();
         String precioStr = etPrecio.getText().toString().trim();
@@ -188,7 +169,6 @@ public class GestionProductosFragment extends Fragment {
                 double precio = Double.parseDouble(precioStr);
                 int stock = Integer.parseInt(stockStr);
 
-                // Pasamos la imagen (puede estar vacía si no seleccionó ninguna)
                 productoController.agregarProducto(nombre, precio, disponible, stock, imagenBase64);
 
                 refrescarLista();
@@ -222,7 +202,7 @@ public class GestionProductosFragment extends Fragment {
                 productoSeleccionado.setPrecio(precio);
                 productoSeleccionado.setDisponible(disponible);
                 productoSeleccionado.setStock(stock);
-                productoSeleccionado.setImagen(imagenBase64); // Actualizar imagen
+                productoSeleccionado.setImagen(imagenBase64);
 
                 productoController.actualizarProducto(productoSeleccionado);
                 refrescarLista();
@@ -278,11 +258,8 @@ public class GestionProductosFragment extends Fragment {
         etStock.setText("");
         checkDisponible.setChecked(false);
         etBuscar.setText("");
-
-        // Limpiar imagen
         imagenBase64 = "";
         ivFoto.setImageResource(android.R.drawable.ic_menu_gallery);
-
         productoSeleccionado = null;
     }
 }
