@@ -1,5 +1,8 @@
 package com.example.proyectoandroid.Adaptadores;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +24,6 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
 
     private OnItemClickListener listener;
 
-    // 🔥 Nueva interfaz igual que Tiendas
     public interface OnItemClickListener {
         void onItemClick(Producto producto);
     }
@@ -53,10 +55,28 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
 
         holder.txtNombre.setText(producto.getNombre());
         holder.txtPrecio.setText("$" + producto.getPrecio());
+
+        if (holder.txtStock != null) {
+            holder.txtStock.setText("Stock: " + producto.getStock());
+        }
+
         holder.txtEstado.setText(producto.isDisponible() ? "Disponible" : "No disponible");
         holder.txtEstado.setTextColor(producto.isDisponible() ? 0xFF4CAF50 : 0xFFF44336);
 
-        // 🔥 CLICK NORMAL IGUAL QUE TIENDAS
+        // 🔥 LÓGICA DE IMAGEN (BASE64) AGREGADA AQUÍ
+        if (producto.getImagen() != null && !producto.getImagen().isEmpty()) {
+            try {
+                byte[] decodedString = Base64.decode(producto.getImagen(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder.imgProducto.setImageBitmap(decodedByte);
+            } catch (Exception e) {
+                holder.imgProducto.setImageResource(android.R.drawable.ic_menu_gallery);
+            }
+        } else {
+            // Imagen por defecto si no tiene
+            holder.imgProducto.setImageResource(android.R.drawable.ic_menu_gallery);
+        }
+
         if (modoAdmin) {
             holder.itemView.setOnClickListener(v -> {
                 if (listener != null) {
@@ -78,7 +98,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
 
     public static class ProductoViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtNombre, txtPrecio, txtEstado;
+        TextView txtNombre, txtPrecio, txtEstado, txtStock;
         ImageView imgProducto;
 
         public ProductoViewHolder(@NonNull View itemView) {
@@ -88,6 +108,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
             txtPrecio = itemView.findViewById(R.id.txtPrecio);
             txtEstado = itemView.findViewById(R.id.txtEstado);
             imgProducto = itemView.findViewById(R.id.imgProducto);
+            txtStock = itemView.findViewById(R.id.txtStock);
         }
     }
 }
