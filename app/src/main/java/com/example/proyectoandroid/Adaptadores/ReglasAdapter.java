@@ -9,15 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.proyectoandroid.modelo.Regla;
 import com.example.proyectoandroid.R;
+import com.example.proyectoandroid.modelo.Regla;
 
 import java.util.List;
+
 public class ReglasAdapter extends RecyclerView.Adapter<ReglasAdapter.ReglaViewHolder> {
+
     private final List<Regla> listaReglas;
     private OnItemClickListener listener;
-    private OnQRClickListener qrClickListener; // Nuevo listener para QR
+    private OnQRClickListener qrClickListener;
 
+    // Listener para click en QR
     public interface OnQRClickListener {
         void onQRClick(Regla regla);
     }
@@ -26,6 +29,7 @@ public class ReglasAdapter extends RecyclerView.Adapter<ReglasAdapter.ReglaViewH
         this.qrClickListener = listener;
     }
 
+    // Listener para click en el item
     public interface OnItemClickListener {
         void onItemClick(Regla regla);
     }
@@ -48,20 +52,19 @@ public class ReglasAdapter extends RecyclerView.Adapter<ReglasAdapter.ReglaViewH
 
     @Override
     public void onBindViewHolder(@NonNull ReglaViewHolder holder, int position) {
-        Regla regla = listaReglas.get(position);
-        holder.textNombre.setText("Nombre: " + regla.getNombre());
-        holder.textDescripcion.setText("Descripcion: " + regla.getDescripcion());
-        holder.textOtros.setText("Otros: " + regla.getOtros());
 
-        // CLICK en el item
+        Regla regla = listaReglas.get(position);
+
+        holder.tvNombre.setText(regla.getNombre());
+        holder.tvDescripcion.setText(regla.getDescripcion());
+        holder.tvOtros.setText(regla.getOtros());
+
+        // CLICK EN EL ITEM COMPLETO
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(regla);
         });
 
-        // CLICK en el botón de generar QR
-        holder.btnGenerarQR.setOnClickListener(v -> {
-            if (qrClickListener != null) qrClickListener.onQRClick(regla);
-        });
+
     }
 
     @Override
@@ -70,15 +73,17 @@ public class ReglasAdapter extends RecyclerView.Adapter<ReglasAdapter.ReglaViewH
     }
 
     static class ReglaViewHolder extends RecyclerView.ViewHolder {
-        TextView textNombre, textDescripcion, textOtros;
-        Button btnGenerarQR; // Botón de QR
 
-        ReglaViewHolder(@NonNull View itemView) {
+        TextView tvNombre, tvDescripcion, tvOtros;
+
+
+        public ReglaViewHolder(@NonNull View itemView) {
             super(itemView);
-            textNombre = itemView.findViewById(R.id.textNombre);
-            textDescripcion = itemView.findViewById(R.id.textDescripcion);
-            textOtros = itemView.findViewById(R.id.textOtros);
-            btnGenerarQR = itemView.findViewById(R.id.btnGenerarQR);
+
+            tvNombre = itemView.findViewById(R.id.tvNombreRegla);
+            tvDescripcion = itemView.findViewById(R.id.tvDescripcionRegla);
+            tvOtros = itemView.findViewById(R.id.tvOtrosRegla);
+
         }
     }
 }

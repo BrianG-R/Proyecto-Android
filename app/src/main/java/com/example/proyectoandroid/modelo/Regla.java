@@ -1,15 +1,22 @@
 package com.example.proyectoandroid.modelo;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
 @Entity
-public class Regla {@PrimaryKey(autoGenerate = true)
-private int id_regla; // Room necesita un PrimaryKey
+public class Regla {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id_regla;
 
     private String nombre;
     private String descripcion;
     private String otros;
 
-    // Constructor
+    // 🔥 Constructor vacío obligatorio para Firebase
+    public Regla() {}
+
+    // Constructor normal (opcional)
     public Regla(String nombre, String descripcion, String otros) {
         this.nombre = nombre;
         this.descripcion = descripcion;

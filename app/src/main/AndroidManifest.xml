@@ -32,7 +32,8 @@
         <!-- ACTIVIDAD PRINCIPAL -->
         <activity
             android:name=".Vista.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize|stateHidden">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

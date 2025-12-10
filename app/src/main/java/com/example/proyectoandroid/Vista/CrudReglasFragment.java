@@ -10,9 +10,9 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.navigation.Navigation;
 
 import com.example.proyectoandroid.R;
 import com.example.proyectoandroid.Adaptadores.ReglasAdapter;
@@ -26,7 +26,6 @@ public class CrudReglasFragment extends Fragment {
     private List<Regla> listaReglas;
     private ReglasAdapter adapter;
     private Regla reglaSeleccionada = null;
-
     private ReglaRepository repo;
 
     @Nullable
@@ -37,28 +36,28 @@ public class CrudReglasFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_crud_reglas, container, false);
 
-        EditText etNombre = view.findViewById(R.id.editTextText4);
-        EditText etDescripcion = view.findViewById(R.id.editTextText3);
-        EditText etOtros = view.findViewById(R.id.editTextText5);
+        // -------------------- IDs CORRECTOS --------------------
+        EditText etNombre = view.findViewById(R.id.etNombreRegla);
+        EditText etDescripcion = view.findViewById(R.id.etDescripcionRegla);
+        EditText etOtros = view.findViewById(R.id.etOtrosRegla);
 
-        Button btnAgregar = view.findViewById(R.id.btnAgregar);
-        Button btnEliminar = view.findViewById(R.id.btnEliminar);
-        Button btnModificar = view.findViewById(R.id.btnModificar);
-        Button btnVolver = view.findViewById(R.id.btnVolver);
+        Button btnAgregar = view.findViewById(R.id.btnAgregarRegla);
+        Button btnEliminar = view.findViewById(R.id.btnEliminarRegla);
+        Button btnModificar = view.findViewById(R.id.btnModificarRegla);
+        Button btnVolver = view.findViewById(R.id.btnVolverRegla);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerReglas);
 
-        // OBJETO REPOSITORY (Firebase ↔ Room)
+        // REPOSITORIO
         repo = new ReglaRepository(requireContext());
 
-        // Cargar desde Room (Firebase sincroniza solo)
         listaReglas = repo.obtenerReglasLocal();
         adapter = new ReglasAdapter(listaReglas);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        // ------------------- SELECCIÓN ITEM -------------------
+        // SELECCIONAR ITEM
         adapter.setOnItemClickListener(regla -> {
             reglaSeleccionada = regla;
             etNombre.setText(regla.getNombre());
@@ -66,11 +65,11 @@ public class CrudReglasFragment extends Fragment {
             etOtros.setText(regla.getOtros());
         });
 
-        // ------------------- GENERAR QR -------------------
+        // QR
         adapter.setOnQRClickListener(regla -> {
-            String datosQR = "Beneficio: " + regla.getNombre() +
-                    " | Descripción: " + regla.getDescripcion() +
-                    " | Otros: " + regla.getOtros();
+            String datosQR = "Regla: " + regla.getNombre() +
+                    "\nDescripción: " + regla.getDescripcion() +
+                    "\nOtros: " + regla.getOtros();
 
             GenerarQRFragment qrFragment = GenerarQRFragment.newInstance(datosQR);
 
@@ -81,9 +80,8 @@ public class CrudReglasFragment extends Fragment {
                     .commit();
         });
 
-        // ------------------- AGREGAR -------------------
+        // AGREGAR
         btnAgregar.setOnClickListener(v -> {
-
             if (etNombre.getText().toString().isEmpty()
                     || etDescripcion.getText().toString().isEmpty()
                     || etOtros.getText().toString().isEmpty())
@@ -96,15 +94,12 @@ public class CrudReglasFragment extends Fragment {
             );
 
             repo.insertar(nueva);
-
             refrescarLista();
-
-            limpiarCampos(etNombre, etDescripcion, etOtros);
+            limpiar(etNombre, etDescripcion, etOtros);
         });
 
-        // ------------------- MODIFICAR -------------------
+        // MODIFICAR
         btnModificar.setOnClickListener(v -> {
-
             if (reglaSeleccionada == null) return;
 
             reglaSeleccionada.setNombre(etNombre.getText().toString());
@@ -112,23 +107,20 @@ public class CrudReglasFragment extends Fragment {
             reglaSeleccionada.setOtros(etOtros.getText().toString());
 
             repo.actualizar(reglaSeleccionada);
-
             refrescarLista();
-            limpiarCampos(etNombre, etDescripcion, etOtros);
+            limpiar(etNombre, etDescripcion, etOtros);
         });
 
-        // ------------------- ELIMINAR -------------------
+        // ELIMINAR
         btnEliminar.setOnClickListener(v -> {
-
             if (reglaSeleccionada == null) return;
 
             repo.eliminar(reglaSeleccionada);
-
             refrescarLista();
-            limpiarCampos(etNombre, etDescripcion, etOtros);
+            limpiar(etNombre, etDescripcion, etOtros);
         });
 
-        // ------------------- VOLVER -------------------
+        // VOLVER
         btnVolver.setOnClickListener(v ->
                 Navigation.findNavController(v).popBackStack()
         );
@@ -136,18 +128,16 @@ public class CrudReglasFragment extends Fragment {
         return view;
     }
 
-
-    // REFRESCAR LA LISTA DESDE ROOM (Firebase actualiza solo)
     private void refrescarLista() {
         listaReglas.clear();
         listaReglas.addAll(repo.obtenerReglasLocal());
         adapter.notifyDataSetChanged();
     }
 
-    private void limpiarCampos(EditText n, EditText d, EditText o) {
+    private void limpiar(EditText n, EditText d, EditText o) {
         reglaSeleccionada = null;
-        n.setText("Nombre");
-        d.setText("Descripcion");
-        o.setText("Otros");
+        n.setText("");
+        d.setText("");
+        o.setText("");
     }
 }

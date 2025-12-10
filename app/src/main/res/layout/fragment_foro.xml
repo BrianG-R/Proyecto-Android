@@ -3,13 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:paddingBottom="12dp"
     android:background="#F5F0E6">
 
+    <!-- LISTA DE MENSAJES -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMensajes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:padding="8dp" />
 
     <!-- Caja de respuesta -->
     <LinearLayout
@@ -18,36 +22,58 @@
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:orientation="vertical"
-        android:background="#DDDDDD"
+        android:background="#E0DCD3"
         android:visibility="gone">
 
         <TextView
             android:id="@+id/tvResponderTexto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="italic"/>
+            android:textStyle="italic"
+            android:textColor="#3E2723" />
 
         <Button
             android:id="@+id/btnCancelarRespuesta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancelar"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:backgroundTint="#BCAAA4"
+            android:textColor="#3E2723"
+            android:layout_marginTop="6dp" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/etNuevoMensaje"
+    <!-- INPUT + BOTÓN ENVIAR -->
+    <LinearLayout
+        android:id="@+id/layoutInput"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Escribe un mensaje..."
-        android:padding="12dp"
-        android:background="@drawable/input_bg"/>
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#F5F0E6"
+        android:paddingBottom="18dp">
 
-    <Button
-        android:id="@+id/btnEnviarMensaje"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Enviar"
-        android:backgroundTint="#D9A066"
-        android:textColor="@android:color/white"/>
+        <EditText
+            android:id="@+id/etNuevoMensaje"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="Escribe un mensaje..."
+            android:background="@drawable/input_bg"
+            android:padding="12dp"
+            android:textColor="#3E2723"
+            android:textColorHint="#8D6E63" />
+
+        <Button
+            android:id="@+id/btnEnviarMensaje"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:text="➤"
+            android:textSize="22sp"
+            android:background="@drawable/btn_redondo"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
+
 </LinearLayout>

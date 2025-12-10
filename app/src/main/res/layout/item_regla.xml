@@ -1,55 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="4dp"
-    android:background="#D9A066">
+    android:layout_margin="10dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="6dp"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textNombre"
+            android:id="@+id/tvNombreRegla"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre: "
             android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#3E2723"
+            android:text="Nombre Regla"
+            android:layout_marginBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/tvDescripcionRegla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#5D4037"
             android:textSize="16sp"
-            android:textColor="@color/brown_dark"/>/>
+            android:text="Descripción"
+            android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/textDescripcion"
+            android:id="@+id/tvOtrosRegla"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descripcion: "
-            android:layout_marginTop="4dp"
-            android:textColor="@color/brown_dark"/>/>
-
-        <TextView
-            android:id="@+id/textOtros"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Otros: "
-            android:layout_marginTop="4dp"
-            android:textColor="@color/brown_dark"/>/>
-
-        <Button
-            android:id="@+id/btnGenerarQR"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Generar QR"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#3E2723"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#795548"
+            android:textSize="15sp"
+            android:text="Otros"
+            android:layout_marginBottom="12dp"/>
 
 
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
