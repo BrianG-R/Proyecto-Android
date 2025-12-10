@@ -13,9 +13,7 @@ import com.example.proyectoandroid.R;
 import com.example.proyectoandroid.modelo.Producto;
 import com.example.proyectoandroid.Adaptadores.ProductoAdapter;
 import com.example.proyectoandroid.controller.ProductoController;
-import com.example.proyectoandroid.database.AppDataBase;
 
-import androidx.room.Room;
 import java.util.List;
 
 public class CatalogoProductosFragment extends Fragment {
@@ -31,19 +29,17 @@ public class CatalogoProductosFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_catalogo_productos, container, false);
 
-        AppDataBase db = Room.databaseBuilder(
-                requireContext(),
-                AppDataBase.class,
-                "cafeteria-db"
-        ).allowMainThreadQueries().build();
-
-        productoController = new ProductoController(db);
+        // --- CAMBIO: Inicializamos con el contexto para activar la sincronización ---
+        productoController = new ProductoController(requireContext());
 
         recyclerView = view.findViewById(R.id.recyclerCatalogo);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Obtenemos la lista inicial (que se irá actualizando sola gracias al repositorio)
         listaProductos = productoController.obtenerProductos();
-        adapter = new ProductoAdapter(listaProductos);
+
+        // --- CAMBIO: Modo cliente explícito (false) ---
+        adapter = new ProductoAdapter(listaProductos, false);
         recyclerView.setAdapter(adapter);
 
         return view;

@@ -9,7 +9,6 @@
     android:background="#FFF8E1"
     tools:context=".Vista.GestionProductosFragment">
 
-    <!-- Título -->
     <TextView
         android:id="@+id/textViewTitulo"
         android:layout_width="0dp"
@@ -24,7 +23,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Campos del formulario -->
     <EditText
         android:id="@+id/etNombreProducto"
         android:layout_width="0dp"
@@ -46,27 +44,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <EditText
+        android:id="@+id/etStockProducto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Stock"
+        android:inputType="number"
+        android:layout_margin="8dp"
+        app:layout_constraintTop_toBottomOf="@id/etPrecioProducto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <CheckBox
         android:id="@+id/etEstadoProducto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Disponible"
         android:layout_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@id/etPrecioProducto"
+        app:layout_constraintTop_toBottomOf="@id/etStockProducto"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Botones: Crear, Modificar, Eliminar, Volver -->
+    <Button
+        android:id="@+id/btnSeleccionarFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar Foto"
+        android:backgroundTint="#8D6E63"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/etEstadoProducto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivFotoProducto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/ic_menu_gallery"
+        android:background="@drawable/borde_imagen"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/btnSeleccionarFoto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayoutBotonesContenedor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@id/etEstadoProducto"
+        app:layout_constraintTop_toBottomOf="@id/ivFotoProducto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Fila 1 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,7 +126,6 @@
                 android:layout_marginStart="4dp" />
         </LinearLayout>
 
-        <!-- Fila 2 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,7 +155,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Buscar -->
     <LinearLayout
         android:id="@+id/linearLayoutBuscar"
         android:layout_width="0dp"
@@ -154,7 +183,6 @@
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <!-- Lista de productos -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerGestion"
         android:layout_width="0dp"
